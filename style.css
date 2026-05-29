@@ -1248,21 +1248,168 @@ footer {
     font-weight: 600;
 }
 
-/* Mobile responsive style */
+/* ==========================================
+   MOBILE & RESPONSIVE LAYOUT ENHANCEMENTS
+   ========================================== */
+
 @media (max-width: 768px) {
-    .audio-player-panel {
-        bottom: 0;
-        right: 0;
-        left: 0;
-        width: 100%;
-        max-width: 100%;
-        border-radius: 20px 20px 0 0;
-        border-width: 1px 0 0 0;
-        padding: 1.2rem;
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.6);
+    /* Navbar compact scaling */
+    .navbar {
+        padding: 0.8rem 4%;
+    }
+    .logo h1 {
+        font-size: 1.25rem;
+    }
+    .logo img {
+        height: 32px;
+    }
+    .search-bar {
+        width: 45%;
+        padding: 0.4rem 0.75rem;
     }
     
+    /* Hero compact scaling to prevent text overflow */
+    .hero {
+        height: auto;
+        min-height: 40vh;
+        padding: 4rem 4% 2rem;
+        margin-top: 60px;
+    }
+    .hero h2 {
+        font-size: 2.2rem !important;
+    }
+    .hero p {
+        font-size: 1rem !important;
+        margin-bottom: 1.5rem;
+    }
+    .btn-primary {
+        padding: 0.8rem 1.6rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Guaranteed 2-Column Grid on Mobile for ultra-premium look */
+    .manga-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 0.8rem !important;
+    }
+    .card-content {
+        padding: 0.6rem 0.8rem !important;
+    }
+    .card-title {
+        font-size: 0.92rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    .card-genre {
+        font-size: 0.78rem !important;
+    }
+    .chapter-badge {
+        font-size: 0.75rem !important;
+        padding: 0.2rem 0.45rem !important;
+        bottom: 8px !important;
+        right: 8px !important;
+    }
+
+    /* Textbook/Novel text adjustments */
+    .reader-text-page {
+        width: 95% !important;
+        padding: 1.8rem 1.2rem !important;
+        margin: 1rem auto !important;
+        font-size: 17px !important;
+        line-height: 1.7 !important;
+        border-radius: 6px !important;
+    }
+    .reader-paragraph {
+        margin-bottom: 1.2rem !important;
+        padding-left: 0.6rem !important;
+        margin-left: -9px !important;
+    }
+    .reader-paragraph:hover {
+        padding-left: 10px !important;
+    }
+    .reader-paragraph.active-reading {
+        padding-left: 10px !important;
+    }
+    
+    /* Manga/Comic images fit the screen perfectly with ZERO horizontal scroll */
+    .reader-image {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Settings Bar tool drawer compact wrap */
+    .reader-settings {
+        padding: 0.6rem 4% !important;
+        gap: 0.5rem 0.8rem !important;
+        font-size: 0.8rem !important;
+        justify-content: flex-start !important;
+    }
+    .reader-settings select {
+        padding: 0.35rem 0.6rem !important;
+        font-size: 0.78rem !important;
+        min-width: 120px !important;
+        border-radius: 5px !important;
+    }
+    .reader-settings label {
+        margin-right: 0.2rem !important;
+    }
+
+    /* Ruler sub-settings drawer scaling */
+    .ruler-sub-settings {
+        padding: 0.5rem 4% !important;
+        gap: 0.6rem 1rem !important;
+        font-size: 0.78rem !important;
+    }
+    .ruler-setting-item label {
+        min-width: auto !important;
+    }
+    .ruler-setting-item input[type="range"] {
+        width: 85px !important;
+    }
+    .ruler-setting-lock-hint {
+        font-size: 0.72rem !important;
+    }
+
+    /* Floating Glassmorphic Audio player docked at bottom with Safe Area margin */
+    .audio-player-panel {
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        border-radius: 20px 20px 0 0 !important;
+        border-width: 1px 0 0 0 !important;
+        padding: 1.2rem 1.2rem calc(1.2rem + env(safe-area-inset-bottom, 12px)) !important;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.65) !important;
+    }
     .audio-player-panel.minimized {
-        transform: translateY(calc(100% - 3.4rem));
+        transform: translateY(calc(100% - 3.4rem)) !important;
+    }
+    .audio-main-controls {
+        gap: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    .audio-extended-settings {
+        gap: 0.75rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Safe rendering for ultra-small mobile viewports */
+    .logo h1 {
+        font-size: 1.05rem;
+    }
+    .search-bar {
+        width: 42%;
+        padding: 0.35rem 0.5rem;
+    }
+    .search-bar input {
+        font-size: 0.8rem;
+    }
+    .hero h2 {
+        font-size: 1.8rem !important;
+    }
+    .reader-settings select {
+        min-width: 110px !important;
     }
 }
