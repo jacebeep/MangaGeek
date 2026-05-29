@@ -1408,20 +1408,72 @@
                 // Clear existing
                 voiceSelect.innerHTML = '';
                 
-                // Filter English voices or provide all
+                // Filter English voices or provide all, prioritizing premium sounding ones first (e.g. Daniel)
                 const sortedVoices = [...voices].sort((a, b) => {
-                    if (a.lang.startsWith('en') && !b.lang.startsWith('en')) return -1;
-                    if (!a.lang.startsWith('en') && b.lang.startsWith('en')) return 1;
+                    const aIsEn = a.lang.startsWith('en');
+                    const bIsEn = b.lang.startsWith('en');
+                    if (aIsEn && !bIsEn) return -1;
+                    if (!aIsEn && bIsEn) return 1;
+                    
+                    // Sort by natural tone priority
+                    const getVoicePriority = (v) => {
+                        const name = v.name.toLowerCase();
+                        if (name.includes('daniel') || name.includes('natural')) return 4;
+                        if (name.includes('google') || name.includes('premium') || name.includes('hazel')) return 3;
+                        if (name.includes('david') || name.includes('zira') || name.includes('mark') || name.includes('susan') || name.includes('george')) return 2;
+                        return 1;
+                    };
+                    
+                    const priorityA = getVoicePriority(a);
+                    const priorityB = getVoicePriority(b);
+                    
+                    if (priorityA !== priorityB) {
+                        return priorityB - priorityA;
+                    }
+                    
                     return a.name.localeCompare(b.name);
                 });
+                
+                // Determine best default voice
+                let defaultVoiceName = '';
+                const enVoices = sortedVoices.filter(v => v.lang.startsWith('en'));
+                if (enVoices.length > 0) {
+                    const daniel = enVoices.find(v => v.name.toLowerCase().includes('daniel'));
+                    if (daniel) {
+                        defaultVoiceName = daniel.name;
+                    } else {
+                        const google = enVoices.find(v => v.name.includes('Google US English'));
+                        if (google) {
+                            defaultVoiceName = google.name;
+                        } else {
+                            const david = enVoices.find(v => v.name.includes('David'));
+                            if (david) {
+                                defaultVoiceName = david.name;
+                            } else {
+                                defaultVoiceName = enVoices[0].name;
+                            }
+                        }
+                    }
+                }
                 
                 sortedVoices.forEach(voice => {
                     const option = document.createElement('option');
                     option.value = voice.name;
-                    option.textContent = `${voice.name} (${voice.lang})`;
                     
-                    // Default selection: select Google US English or Microsoft David or first English
-                    if (voice.name.includes('Google US English') || voice.name.includes('David') || (voice.lang.startsWith('en') && voiceSelect.children.length === 0)) {
+                    // Inject beautiful indicator badges based on high-quality status
+                    let label = voice.name;
+                    const lowerName = voice.name.toLowerCase();
+                    if (lowerName.includes('daniel') || lowerName.includes('natural')) {
+                        label = `🌟 ${voice.name} (Natural)`;
+                    } else if (lowerName.includes('google') || lowerName.includes('premium') || lowerName.includes('hazel')) {
+                        label = `✨ ${voice.name} (Premium)`;
+                    } else if (lowerName.includes('david') || lowerName.includes('zira') || lowerName.includes('mark') || lowerName.includes('susan') || lowerName.includes('george')) {
+                        label = `👤 ${voice.name} (Natural)`;
+                    }
+                    
+                    option.textContent = `${label} (${voice.lang})`;
+                    
+                    if (voice.name === defaultVoiceName) {
                         option.selected = true;
                     }
                     voiceSelect.appendChild(option);
