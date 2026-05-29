@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Masterpieces by Genre - MangaGeek</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Genre Page Hero Styles */
+        .genre-hero {
+            padding: 8rem 5% 4.5rem;
+            background: radial-gradient(circle at top left, rgba(255, 215, 0, 0.08), transparent 50%), 
+                        radial-gradient(circle at bottom right, rgba(0, 114, 255, 0.05), transparent 50%),
+                        radial-gradient(circle at bottom left, rgba(5, 5, 5, 1), rgba(15, 15, 15, 0.9));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+ 
+        .genre-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--bg-color));
+            z-index: 1;
+        }
+ 
+        .genre-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+ 
+        .genre-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 40%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.15));
+        }
+ 
+        .genre-hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .genre-section {
+            padding: 3rem 5% 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" style="cursor: pointer;" onclick="window.location.href='index.html'">
+            <img src="assets/logo.png" alt="MangaGeek Logo">
+            <h1>MangaGeek</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for books or manga...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#popularGrid">Featured</a></li>
+            <li><a href="index.html#latestGrid">Latest</a></li>
+            <li><a href="genres.html" style="color: #ffd700; text-shadow: 0 0 8px rgba(255,215,0,0.4);">Genres</a></li>
+        </ul>
+    </nav>
+
+    <header class="genre-hero">
+        <div class="genre-hero-content">
+            <h1>Browse by Genre</h1>
+            <p>Select a category to filter our timeless literary works, spectacular mangas, philosophies, and scriptures.</p>
+        </div>
+    </header>
+
+    <main class="genre-section">
+        <!-- Interactive Category Cards Grid -->
+        <div class="genre-grid" id="genresGridContainer">
+            <!-- Dynamically populated via genres.js -->
+        </div>
+
+        <!-- Filtered Books Grid -->
+        <section class="genre-results-container">
+            <h2 class="genre-results-title" id="genreResultsHeader">
+                Loading Masterpieces...
+            </h2>
+            <div class="manga-grid" id="genreResultsGrid">
+                <!-- Books injected here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <img src="assets/logo.png" alt="MangaGeek Logo">
+                <h2>MangaGeek</h2>
+            </div>
+            <p>Your ultimate source for free manga reading online. Read anywhere, anytime.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MangaGeek. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load scripts in order: core database first, then genres view logic -->
+    <script src="script.js"></script>
+    <script src="genres.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

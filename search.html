@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Masterpieces & Manga - MangaGeek</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Search Page Specific Premium Styles */
+        .search-hero {
+            padding: 8rem 5% 4rem;
+            background: radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 50%), 
+                        radial-gradient(circle at bottom left, rgba(5, 5, 5, 1), rgba(15, 15, 15, 0.9));
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .search-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, var(--bg-color));
+            z-index: 1;
+        }
+
+        .search-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .search-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 30%, #ffd700 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.15));
+        }
+
+        .search-hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+        }
+
+        .page-search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(20, 20, 20, 0.85);
+            border: 2px solid var(--border-color);
+            border-radius: 40px;
+            padding: 0.8rem 1.8rem;
+            width: 100%;
+            max-width: 650px;
+            margin: 0 auto;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .page-search-box:focus-within {
+            border-color: #ffd700;
+            box-shadow: 0 10px 40px rgba(255, 215, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .page-search-box input {
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            outline: none;
+            width: 100%;
+            font-size: 1.2rem;
+            font-family: inherit;
+        }
+
+        .page-search-box button {
+            background: transparent;
+            border: none;
+            color: #ffd700;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .page-search-box button:hover {
+            transform: scale(1.15);
+        }
+
+        .search-results-section {
+            padding: 4rem 5%;
+            min-height: 50vh;
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .results-count span {
+            color: #ffd700;
+            font-weight: 800;
+        }
+
+        /* Center recommendation banner on the search page */
+        #searchPageSuggestion {
+            margin: 0 auto 3rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" style="cursor: pointer;" onclick="window.location.href='index.html'">
+            <img src="assets/logo.png" alt="MangaGeek Logo">
+            <h1>MangaGeek</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="navbarSearchInput" placeholder="Search for books or manga...">
+            <button id="navbarSearchBtn"><i class="fas fa-search"></i></button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#popularGrid">Featured</a></li>
+            <li><a href="index.html#latestGrid">Latest</a></li>
+            <li><a href="genres.html">Genres</a></li>
+        </ul>
+    </nav>
+
+    <header class="search-hero">
+        <div class="search-hero-content">
+            <h1>Explore Masterpieces</h1>
+            <p>Uncover scriptures, literary novels, and spectacular shonen manga in our fully cataloged digital library.</p>
+            <div class="page-search-box">
+                <input type="text" id="pageSearchInput" placeholder="Type title, character, genre, or keyword...">
+                <button id="pageSearchBtn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="search-results-section">
+        <div id="searchPageSuggestion"></div>
+        <h2 class="results-count" id="resultsCount">Showing all <span>8</span> available publications</h2>
+        <div class="manga-grid" id="searchResultsGrid">
+            <!-- Search results dynamically loaded -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <img src="assets/logo.png" alt="MangaGeek Logo">
+                <h2>MangaGeek</h2>
+            </div>
+            <p>Your ultimate source for free manga reading online. Read anywhere, anytime.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MangaGeek. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load the main data/scripts -->
+    <script src="script.js"></script>
+    <script src="search.js"></script>
+    <script src="auth.js"></script>
+</body>
+</html>

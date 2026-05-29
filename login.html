@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In & Register - MangaGeek</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo" style="cursor: pointer;" onclick="window.location.href='index.html'">
+            <img src="assets/logo.png" alt="MangaGeek Logo">
+            <h1>MangaGeek</h1>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#popularGrid">Featured</a></li>
+            <li><a href="index.html#latestGrid">Latest</a></li>
+            <li><a href="genres.html">Genres</a></li>
+        </ul>
+    </nav>
+
+    <main class="auth-container">
+        <div class="auth-card">
+            <div class="auth-card-header">
+                <h2 id="authTitle">Sign In</h2>
+                <p id="authSubtitle">Discover and read the finest masterpieces online.</p>
+            </div>
+
+            <!-- Live Validation Error Alert Box -->
+            <div class="auth-error-msg" id="authErrorMsg">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="authErrorText">Invalid credentials!</span>
+            </div>
+
+            <form id="authForm">
+                <!-- Name Field (Hidden in Login, Visible in Sign Up) -->
+                <div class="auth-form-group" id="nameFieldGroup" style="display: none;">
+                    <label for="regName">Full Name</label>
+                    <div class="auth-input-container">
+                        <input type="text" id="regName" placeholder="Enter your name">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="authEmail">Email Address</label>
+                    <div class="auth-input-container">
+                        <input type="email" id="authEmail" required placeholder="name@example.com">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label for="authPassword">Password</label>
+                    <div class="auth-input-container">
+                        <input type="password" id="authPassword" required placeholder="••••••••">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field (Hidden in Login, Visible in Sign Up) -->
+                <div class="auth-form-group" id="confirmFieldGroup" style="display: none;">
+                    <label for="authConfirmPassword">Confirm Password</label>
+                    <div class="auth-input-container">
+                        <input type="password" id="authConfirmPassword" placeholder="Re-enter password">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-submit-btn" id="authSubmitBtn">Sign In</button>
+            </form>
+
+            <div class="auth-card-footer">
+                <span id="footerText">Don't have an account?</span> 
+                <span class="auth-toggle-link" id="authToggleLink">Create Account</span>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <img src="assets/logo.png" alt="MangaGeek Logo">
+                <h2>MangaGeek</h2>
+            </div>
+            <p>Your ultimate source for free manga reading online. Read anywhere, anytime.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MangaGeek. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Load Auth Logic script first, which injects navbar badges automatically -->
+    <script src="auth.js"></script>
+    <script>
+        // Check if user is already logged in, redirect them back to dashboard
+        if (getCurrentUser()) {
+            window.location.href = 'index.html';
+        }
+
+        let isLoginMode = true; // State tracker
+
+        const authForm = document.getElementById('authForm');
+        const authTitle = document.getElementById('authTitle');
+        const authSubtitle = document.getElementById('authSubtitle');
+        const authSubmitBtn = document.getElementById('authSubmitBtn');
+        const authToggleLink = document.getElementById('authToggleLink');
+        const footerText = document.getElementById('footerText');
+        const errorMsg = document.getElementById('authErrorMsg');
+        const errorText = document.getElementById('authErrorText');
+
+        // Fields groups
+        const nameFieldGroup = document.getElementById('nameFieldGroup');
+        const confirmFieldGroup = document.getElementById('confirmFieldGroup');
+        
+        // Input fields
+        const regName = document.getElementById('regName');
+        const authEmail = document.getElementById('authEmail');
+        const authPassword = document.getElementById('authPassword');
+        const authConfirmPassword = document.getElementById('authConfirmPassword');
+
+        // Hide/Show Live Errors
+        function showError(msg) {
+            errorText.textContent = msg;
+            errorMsg.style.display = 'flex';
+        }
+
+        function hideError() {
+            errorMsg.style.display = 'none';
+        }
+
+        // Toggle Form between Login and Sign Up Modes
+        authToggleLink.addEventListener('click', () => {
+            hideError();
+            isLoginMode = !isLoginMode;
+
+            if (isLoginMode) {
+                // Sign In Mode
+                authTitle.textContent = "Sign In";
+                authSubtitle.textContent = "Discover and read the finest masterpieces online.";
+                authSubmitBtn.textContent = "Sign In";
+                footerText.textContent = "Don't have an account?";
+                authToggleLink.textContent = "Create Account";
+                
+                nameFieldGroup.style.display = 'none';
+                confirmFieldGroup.style.display = 'none';
+                regName.required = false;
+                authConfirmPassword.required = false;
+            } else {
+                // Sign Up Mode
+                authTitle.textContent = "Register";
+                authSubtitle.textContent = "Create an account to track bookmarks and resume progress.";
+                authSubmitBtn.textContent = "Create Account";
+                footerText.textContent = "Already have an account?";
+                authToggleLink.textContent = "Sign In";
+                
+                nameFieldGroup.style.display = 'block';
+                confirmFieldGroup.style.display = 'block';
+                regName.required = true;
+                authConfirmPassword.required = true;
+            }
+        });
+
+        // Handle Form Submission
+        authForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            hideError();
+
+            const email = authEmail.value.trim();
+            const password = authPassword.value;
+
+            if (isLoginMode) {
+                // Login Flow
+                const res = loginUser(email, password);
+                if (res.success) {
+                    window.location.href = 'index.html';
+                } else {
+                    showError(res.message);
+                }
+            } else {
+                // Registration Flow
+                const name = regName.value.trim();
+                const confirmPassword = authConfirmPassword.value;
+
+                // Client-side validation checks
+                if (name === '') {
+                    showError("Please enter your full name.");
+                    return;
+                }
+                if (password.length < 6) {
+                    showError("Password must be at least 6 characters long.");
+                    return;
+                }
+                if (password !== confirmPassword) {
+                    showError("Passwords do not match!");
+                    return;
+                }
+
+                const res = registerUser(name, email, password);
+                if (res.success) {
+                    window.location.href = 'index.html';
+                } else {
+                    showError(res.message);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Read Manga & Novels | MangaGeek</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Reader Styles */
+        .reader-nav {
+            background-color: var(--surface-color);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+        /* Settings Bar */
+        .reader-settings {
+            background-color: #111;
+            padding: 0.8rem 5%;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            border-bottom: 1px solid #333;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            align-items: center;
+        }
+        .reader-settings select {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            outline: none;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            min-width: 140px; /* CRITICAL: Guarantee dropdowns never squish or collapse! */
+            transition: all 0.25s ease;
+        }
+        .reader-settings select:hover {
+            border-color: #ffd700;
+        }
+        .reader-settings label {
+            margin-right: 0.5rem;
+            font-weight: 600;
+        }
+        .reader-nav .back-btn {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s;
+        }
+        .reader-nav .back-btn:hover {
+            color: var(--text-secondary);
+        }
+        .chapter-info {
+            text-align: center;
+        }
+        .chapter-info h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .chapter-info p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+        .reader-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000; /* Pure black for reading */
+            padding-bottom: 4rem;
+            gap: 0px; /* Default spacing */
+            min-height: 80vh;
+            position: relative; /* CRITICAL for absolute positioning of Ruler and Focus Mask! */
+        }
+        .reader-image {
+            max-width: 1000px;
+            width: auto;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+            image-rendering: high-quality;
+            transform: translateZ(0);
+        }
+        .reader-container.mode-paginated .reader-image {
+            display: none;
+            max-height: 95vh;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .reader-container.mode-paginated .reader-image.active-page {
+            display: block;
+        }
+        .reader-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2rem;
+            background-color: #000;
+        }
+        .reader-controls button {
+            background: var(--surface-color);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .reader-controls button:hover {
+            background: var(--border-color);
+            transform: translateY(-2px);
+        }
+        .reader-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Novel text page styling */
+        .reader-text-page {
+            max-width: 800px !important;
+            width: 90% !important;
+            height: auto !important;
+            display: block;
+            margin: 2rem auto !important;
+            padding: 3.5rem 4.5rem;
+            background-color: var(--text-page-bg, #fdf6e3);
+            color: var(--text-page-color, #586e75);
+            font-family: var(--text-page-font, 'Lora', serif);
+            font-size: var(--text-page-size, 19px);
+            line-height: 1.8;
+            border-radius: 8px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+            white-space: pre-wrap;
+            border: 1px solid var(--text-page-border, #eee8d5);
+            text-align: justify;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+            user-select: text; /* Allow highlighting book text */
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+        .reader-paragraph {
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.25s ease, border-left-color 0.25s ease, padding-left 0.25s ease;
+            border-left: 3px solid transparent;
+            padding-left: 10px;
+            margin-left: -13px; /* Align text perfectly by pulling the border margin left */
+        }
+        .reader-paragraph:hover {
+            background-color: var(--ruler-color, rgba(224, 168, 0, 0.06));
+            border-left-color: var(--ruler-indicator, #ffd700);
+            padding-left: 14px;
+        }
+        .reader-paragraph.active-reading {
+            background-color: var(--ruler-color, rgba(224, 168, 0, 0.12)) !important;
+            border-left-color: var(--ruler-indicator, #ffd700) !important;
+            border-radius: 4px;
+            padding-left: 14px;
+        }
+        .reader-text-page .page-num {
+            display: block;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 2rem;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            padding-top: 1rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            user-select: none;
+        }
+        @media (max-width: 768px) {
+            .reader-text-page {
+                padding: 2rem 1.5rem !important; /* Elegant smaller padding on mobile/tablets to prevent cut-off! */
+                font-size: 17px !important;
+            }
+        }
+        .reader-container.mode-paginated .reader-text-page {
+            display: none;
+            max-height: none !important;
+        }
+        .reader-container.mode-paginated .reader-text-page.active-page {
+            display: block;
+        }
+
+        /* Line Reader & Focus Mask Styles */
+        .reading-ruler {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: var(--ruler-height, 40px);
+            background: var(--ruler-color, rgba(224, 168, 0, 0.15));
+            border-top: 1.5px solid var(--ruler-border, rgba(224, 168, 0, 0.45));
+            border-bottom: 1.5px solid var(--ruler-border, rgba(224, 168, 0, 0.45));
+            box-shadow: var(--ruler-shadow, 0 0 10px rgba(224, 168, 0, 0.1));
+            pointer-events: none;
+            z-index: 10;
+            border-radius: 4px;
+            transform: translateY(-50%);
+            transition: top 0.12s cubic-bezier(0.16, 1, 0.3, 1), height 0.15s ease, background 0.3s, border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .reading-ruler::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background-color: var(--ruler-indicator, #ffd700);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 0 8px var(--ruler-indicator, #ffd700);
+        }
+
+        .reading-ruler.locked::before {
+            opacity: 0.9;
+        }
+
+        .reading-mask {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            background-color: var(--mask-bg, rgba(0, 0, 0, 0.5));
+            backdrop-filter: blur(var(--mask-blur, 0.5px));
+            -webkit-backdrop-filter: blur(var(--mask-blur, 0.5px));
+            pointer-events: none;
+            z-index: 9;
+            transition: top 0.12s cubic-bezier(0.16, 1, 0.3, 1), height 0.12s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s;
+        }
+
+        #readingMaskTop {
+            top: 0;
+        }
+
+        /* Sliders and sub-settings for Line Reader */
+        .ruler-sub-settings {
+            background-color: #111;
+            border-bottom: 1px solid #222;
+            padding: 0.6rem 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            animation: slideDown 0.25s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .ruler-setting-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .ruler-setting-item label {
+            min-width: 90px;
+            font-weight: 500;
+        }
+
+        .ruler-setting-item label span {
+            color: #ffd700;
+            font-weight: 600;
+        }
+
+        .ruler-setting-item input[type="range"] {
+            -webkit-appearance: none;
+            width: 110px;
+            height: 5px;
+            background: #333;
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .ruler-setting-item input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            background: #ffd700;
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(255, 215, 0, 0.4);
+            transition: transform 0.1s ease;
+        }
+
+        .ruler-setting-item input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .ruler-setting-lock-hint {
+            font-size: 0.8rem;
+            color: #ffd700;
+            opacity: 0.9;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body style="background-color: #000;">
+    <nav class="reader-nav">
+        <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
+        <div class="chapter-info">
+            <h1 id="manga-title">Manga Title</h1>
+            <p id="chapter-title">Chapter Title</p>
+        </div>
+        <button class="bookmark-btn" id="bookmarkBtn">
+            <i class="far fa-bookmark"></i> <span>Bookmark</span>
+        </button>
+    </nav>
+
+    <div class="reader-settings">
+        <div>
+            <label for="chapterSelect">Chapter: </label>
+            <select id="chapterSelect">
+                <!-- Options injected by JS -->
+            </select>
+        </div>
+        <div>
+            <label for="readingMode">Reading Mode: </label>
+            <select id="readingMode">
+                <option value="scroll">Vertical Scroll</option>
+                <option value="paginated">Paginated (Tap to turn)</option>
+            </select>
+        </div>
+        <div id="audioToggleSetting">
+            <label for="audioReaderToggle"><i class="fas fa-headphones"></i> Audio Mode: </label>
+            <select id="audioReaderToggle">
+                <option value="off" selected>Off</option>
+                <option value="on">On</option>
+            </select>
+        </div>
+        
+        <!-- Regular Manga Settings -->
+        <div id="spacingSetting">
+            <label for="pageSpacing">Page Spacing: </label>
+            <select id="pageSpacing">
+                <option value="0px">No Space</option>
+                <option value="10px">Small Space</option>
+                <option value="30px">Large Space</option>
+            </select>
+        </div>
+
+        <!-- Book Novel Settings (Visible only for Textbooks) -->
+        <div id="fontSizeSetting" style="display: none;">
+            <label for="fontSize">Font Size: </label>
+            <select id="fontSize">
+                <option value="16px">Small</option>
+                <option value="18px">Medium</option>
+                <option value="20px" selected>Large</option>
+                <option value="22px">Extra Large</option>
+                <option value="24px">Huge</option>
+            </select>
+        </div>
+        <div id="fontFamilySetting" style="display: none;">
+            <label for="fontFamily">Font: </label>
+            <select id="fontFamily">
+                <option value="'Lora', serif" selected>Lora (Serif)</option>
+                <option value="'Outfit', sans-serif">Outfit (Sans)</option>
+                <option value="Georgia, serif">Georgia (Classic)</option>
+            </select>
+        </div>
+        <div id="themeSetting" style="display: none;">
+            <label for="themeSelect">Theme: </label>
+            <select id="themeSelect">
+                <option value="sepia" selected>Sepia Warm</option>
+                <option value="dark">Charcoal Gold</option>
+                <option value="light">Light Cream</option>
+            </select>
+        </div>
+
+        <div id="rulerModeSetting" style="display: none;">
+            <label for="rulerMode">Line Reader: </label>
+            <select id="rulerMode">
+                <option value="off" selected>Off</option>
+                <option value="line">Ruler Bar</option>
+                <option value="mask">Focus Mask</option>
+            </select>
+        </div>
+
+        <div id="pageCounter" style="display: none; align-items: center;">
+            Page&nbsp;<span id="currentPageNum">1</span>&nbsp;/&nbsp;<span id="totalPagesNum">0</span>
+        </div>
+    </div>
+
+    <!-- Collapsible Line Reader Sub-Settings -->
+    <div id="rulerSubSettings" class="ruler-sub-settings" style="display: none;">
+        <div class="ruler-setting-item">
+            <label for="rulerHeightRange">Height: <span id="rulerHeightVal">40px</span></label>
+            <input type="range" id="rulerHeightRange" min="20" max="100" value="40">
+        </div>
+        <div class="ruler-setting-item">
+            <label for="rulerOpacityRange">Opacity: <span id="rulerOpacityVal">20%</span></label>
+            <input type="range" id="rulerOpacityRange" min="10" max="80" value="20" step="5">
+        </div>
+        <div class="ruler-setting-lock-hint">
+            <i class="fas fa-mouse-pointer"></i> Click text to Lock/Unlock • Nudge with ↑↓ or J/K
+        </div>
+    </div>
+
+    <main class="reader-container" id="readerContainer">
+        <!-- Content injected via JS -->
+    </main>
+
+    <div class="reader-controls">
+        <button id="prev-chapter"><i class="fas fa-chevron-left"></i> Previous</button>
+        <button id="next-chapter">Next <i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Floating Glassmorphic Audio Player Widget -->
+    <div id="audioPlayerPanel" class="audio-player-panel hidden">
+        <div class="audio-player-header">
+            <div class="audio-player-title" id="audioPlayerTitle">
+                <i class="fas fa-headphones"></i> Audio Narrator
+            </div>
+            <div class="audio-player-actions">
+                <button class="audio-player-action-btn" id="audioMinimizeBtn" title="Minimize / Expand">
+                    <i class="fas fa-chevron-down" id="audioMinimizeIcon"></i>
+                </button>
+                <button class="audio-player-action-btn" id="audioCloseBtn" title="Disable Audio Mode">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="audio-status-info">
+            <span id="audioStatusText"><span class="audio-pulse-indicator stopped" id="audioStatusPulse"></span>Stopped</span>
+            <span id="audioProgressTracker">0 / 0</span>
+        </div>
+        
+        <div class="audio-hint-text" id="audioHintText" style="display: none; font-size: 0.78rem; opacity: 0.85; text-align: center; margin: 0.4rem 0 0.2rem 0; color: #ffd700; font-family: 'Outfit', sans-serif; font-weight: 500;">
+            <i class="fas fa-lightbulb"></i> Click any paragraph to start reading from there!
+        </div>
+        
+        <div class="audio-main-controls">
+            <button class="audio-btn-circle" id="audioPrevBtn" title="Previous Paragraph">
+                <i class="fas fa-step-backward"></i>
+            </button>
+            <button class="audio-btn-circle play-pause-btn" id="audioPlayPauseBtn" title="Play">
+                <i class="fas fa-play" id="audioPlayPauseIcon"></i>
+            </button>
+            <button class="audio-btn-circle" id="audioStopBtn" title="Stop & Reset">
+                <i class="fas fa-stop"></i>
+            </button>
+            <button class="audio-btn-circle" id="audioNextBtn" title="Next Paragraph">
+                <i class="fas fa-step-forward"></i>
+            </button>
+        </div>
+        
+        <div class="audio-extended-settings" id="audioExtendedSettings">
+            <!-- Dynamic Content based on Book vs Manga -->
+            <div id="audioBookSettingsOnly" style="display: none;">
+                <div class="audio-settings-row">
+                    <div class="audio-settings-label">
+                        <span>Narrator Voice</span>
+                    </div>
+                    <select class="audio-select" id="audioVoiceSelect">
+                        <!-- Populated dynamically via SpeechSynthesis -->
+                    </select>
+                </div>
+                
+                <div class="audio-settings-row">
+                    <div class="audio-settings-label">
+                        <span>Speed (Rate): <span class="val-highlight" id="audioRateVal">1.0x</span></span>
+                    </div>
+                    <input type="range" class="audio-slider" id="audioRateRange" min="0.5" max="2.5" step="0.1" value="1.0">
+                </div>
+
+                <div class="audio-settings-row">
+                    <div class="audio-settings-label">
+                        <span>Pitch: <span class="val-highlight" id="audioPitchVal">1.0</span></span>
+                    </div>
+                    <input type="range" class="audio-slider" id="audioPitchRange" min="0.5" max="1.5" step="0.1" value="1.0">
+                </div>
+                
+                <div class="audio-options-list">
+                    <label class="audio-option-item">
+                        <input type="checkbox" id="audioAutoTurnCheckbox" checked>
+                        <span>Auto-turn Pages</span>
+                    </label>
+                    <label class="audio-option-item">
+                        <input type="checkbox" id="audioAutoScrollCheckbox" checked>
+                        <span>Auto-scroll Text</span>
+                    </label>
+                </div>
+            </div>
+            
+            <div id="audioMangaSettingsOnly" style="display: none;">
+                <div class="audio-settings-row">
+                    <div class="audio-settings-label">
+                        <span>Soundscape Ambient Theme</span>
+                    </div>
+                    <select class="audio-select" id="audioSoundscapeSelect">
+                        <option value="none">-- Select Ambient Atmosphere --</option>
+                        <option value="battle">Epic Shonen Battle (Orchestral)</option>
+                        <option value="mystery">Thriller Mystery (Suspense Synth)</option>
+                        <option value="lofi">Cosy Lofi & Rain (Chill Beats)</option>
+                        <option value="nature">Nature Whispers (Forest Wind)</option>
+                    </select>
+                </div>
+                
+                <div class="audio-settings-row">
+                    <div class="audio-settings-label">
+                        <span>Ambient Volume: <span class="val-highlight" id="audioVolumeVal">50%</span></span>
+                    </div>
+                    <input type="range" class="audio-slider" id="audioVolumeRange" min="0" max="100" step="5" value="50">
+                </div>
+                
+                <div style="font-size: 0.8rem; opacity: 0.7; text-align: center; margin-top: 0.5rem; line-height: 1.3;">
+                    <i class="fas fa-info-circle"></i> Manga contains image panels. Ambient soundscapes are looped to heighten the visual immersion!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Synchronously load the correct database script depending on manga URL query parameter to bypass loading unneeded files!
+        window.mangaDatabase = {};
+        const loaderParams = new URLSearchParams(window.location.search);
+        const currentMangaIdForLoader = loaderParams.get('manga') || 'dragon-ball-super';
+        const scriptMapForLoader = {
+            'dragon-ball-super': 'data.js',
+            'death-note': 'death_note_data.js',
+            'stephen-king-it': 'it_data.js',
+            'the-48-laws-of-power': 'laws_data.js',
+            'the-art-of-war': 'art_data.js',
+            'holy-bible-kjv': 'bible_data.js',
+            'rich-dad-poor-dad': 'rich_dad_poor_dad_data.js',
+            'spiderman-3': 'spiderman_data.js',
+            'spiderman-701': 'spiderman_701_data.js',
+            'alice-in-wonderland': 'alice_in_wonderland_data.js',
+            'pride-and-prejudice': 'pride_and_prejudice_data.js',
+            'frankenstein': 'frankenstein_data.js',
+            'sherlock-holmes': 'sherlock_holmes_data.js',
+            'dracula': 'dracula_data.js',
+            'great-gatsby': 'great_gatsby_data.js',
+            'metamorphosis': 'metamorphosis_data.js',
+            'tale-of-two-cities': 'tale_of_two_cities_data.js',
+            'moby-dick': 'moby_dick_data.js',
+            'picture-of-dorian-gray': 'picture_of_dorian_gray_data.js',
+            'time-machine': 'time_machine_data.js',
+            'war-of-the-worlds': 'war_of_the_worlds_data.js',
+            'romeo-and-juliet': 'romeo_and_juliet_data.js',
+            'heart-of-darkness': 'heart_of_darkness_data.js',
+            'treasure-island': 'treasure_island_data.js',
+            'dr-jekyll-and-mr-hyde': 'dr_jekyll_and_mr_hyde_data.js',
+            'grimms-fairy-tales': 'grimms_fairy_tales_data.js',
+            'peter-pan': 'peter_pan_data.js',
+            'the-odyssey': 'the_odyssey_data.js',
+            'the-iliad': 'the_iliad_data.js'
+        };
+        const scriptToLoad = scriptMapForLoader[currentMangaIdForLoader] || 'data.js';
+        document.write('<script src="' + scriptToLoad + '"><\/script>');
+    </script>
+    <script>
+        // Parse URL to get manga and chapter number
+        const urlParams = new URLSearchParams(window.location.search);
+        const currentMangaId = urlParams.get('manga') || 'dragon-ball-super';
+        const currentChapter = parseInt(urlParams.get('chapter')) || 1;
+        const startPageParam = parseInt(urlParams.get('page')) || 1;
+
+        // UI Elements
+        const container = document.getElementById('readerContainer');
+        const chapterTitleElem = document.getElementById('chapter-title');
+        const mangaTitleElem = document.getElementById('manga-title');
+        const prevBtn = document.getElementById('prev-chapter');
+        const nextBtn = document.getElementById('next-chapter');
+        const chapterSelect = document.getElementById('chapterSelect');
+
+        // Bridge global book variables into window.mangaDatabase if they are defined
+        if (typeof window.mangaDatabase !== 'undefined') {
+            if (typeof bibleData !== 'undefined') window.mangaDatabase["holy-bible-kjv"] = bibleData;
+            if (typeof deathNoteData !== 'undefined') window.mangaDatabase["death-note"] = deathNoteData;
+            if (typeof artData !== 'undefined') window.mangaDatabase["the-art-of-war"] = artData;
+            if (typeof lawsData !== 'undefined') window.mangaDatabase["the-48-laws-of-power"] = lawsData;
+            if (typeof itData !== 'undefined') window.mangaDatabase["stephen-king-it"] = itData;
+            if (typeof spidermanData !== 'undefined') window.mangaDatabase["spiderman-3"] = spidermanData;
+            if (typeof spiderman701Data !== 'undefined') window.mangaDatabase["spiderman-701"] = spiderman701Data;
+        }
+
+        const manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
+
+        // --- Line Reader State Variables (Declared early at the top to resolve Temporal Dead Zone ReferenceErrors!) ---
+        let rulerMode = localStorage.getItem('mangageek_ruler_mode') || 'off';
+        let rulerHeight = parseInt(localStorage.getItem('mangageek_ruler_height')) || 40;
+        let rulerOpacity = parseFloat(localStorage.getItem('mangageek_ruler_opacity')) || 0.2;
+        let rulerLocked = false;
+        let rulerY = 0; // Relative Y coordinate inside the readerContainer
+
+        let rulerEl = null;
+        let maskTopEl = null;
+        let maskBottomEl = null;
+
+        const themeMap = {
+            sepia: {
+                bg: '#fdf6e3',
+                color: '#586e75',
+                border: '#eee8d5',
+                bodyBg: '#f4ecd8',
+                navBg: '#eae0c9',
+                navBorder: '#dcd1b4',
+                text: '#5c4a3c',
+                settingsBg: '#eae0c9',
+                selectBg: '#fdf6e3',
+                selectColor: '#5c4a3c'
+            },
+            dark: {
+                bg: '#151515',
+                color: '#dcdcdc',
+                border: '#2c2c2c',
+                bodyBg: '#0d0d0d',
+                navBg: '#151515',
+                navBorder: '#2c2c2c',
+                text: '#a0a0a0',
+                settingsBg: '#151515',
+                selectBg: '#222',
+                selectColor: '#fff'
+            },
+            light: {
+                bg: '#fcfcf9',
+                color: '#2b2b2b',
+                border: '#f2f2eb',
+                bodyBg: '#f5f5ee',
+                navBg: '#ebebe3',
+                navBorder: '#d9d9cf',
+                text: '#3c3c3c',
+                settingsBg: '#ebebe3',
+                selectBg: '#fcfcf9',
+                selectColor: '#2b2b2b'
+            }
+        };
+
+        function applyTheme(themeName) {
+            const colors = themeMap[themeName];
+            if (!colors) return;
+            
+            // Apply variables for text page
+            document.documentElement.style.setProperty('--text-page-bg', colors.bg);
+            document.documentElement.style.setProperty('--text-page-color', colors.color);
+            document.documentElement.style.setProperty('--text-page-border', colors.border);
+            
+            // Apply variables page-wide to body, navbar, and settings elements
+            document.body.style.backgroundColor = colors.bodyBg;
+            
+            const readerContainer = document.getElementById('readerContainer');
+            if (readerContainer) {
+                readerContainer.style.backgroundColor = colors.bodyBg;
+            }
+            
+            const controlsContainer = document.querySelector('.reader-controls');
+            if (controlsContainer) {
+                controlsContainer.style.backgroundColor = colors.bodyBg;
+            }
+            
+            const nav = document.querySelector('.reader-nav');
+            if (nav) {
+                nav.style.backgroundColor = colors.navBg;
+                nav.style.borderColor = colors.navBorder;
+                nav.style.color = colors.text;
+                
+                // Update nav links and buttons inside navbar (skipping the bookmark button to preserve its active/inactive CSS colors!)
+                nav.querySelectorAll('a, button, span').forEach(el => {
+                    if (el.id === 'bookmarkBtn' || el.closest('#bookmarkBtn')) {
+                        return; // Skip inline overrides on the bookmark button!
+                    }
+                    el.style.color = colors.text;
+                    if (el.tagName === 'BUTTON') {
+                        el.style.borderColor = colors.navBorder;
+                    }
+                });
+            }
+            
+            const settings = document.querySelector('.reader-settings');
+            if (settings) {
+                settings.style.backgroundColor = colors.settingsBg;
+                settings.style.borderColor = colors.navBorder;
+                settings.style.color = colors.text;
+                
+                // Update settings controls
+                settings.querySelectorAll('select, label').forEach(el => {
+                    if (el.tagName === 'SELECT') {
+                        el.style.backgroundColor = colors.selectBg;
+                        el.style.color = colors.selectColor;
+                        el.style.borderColor = colors.navBorder;
+                    } else {
+                        el.style.color = colors.text;
+                    }
+                });
+            }
+            
+            const subSettings = document.getElementById('rulerSubSettings');
+            if (subSettings) {
+                subSettings.style.backgroundColor = colors.settingsBg;
+                subSettings.style.borderColor = colors.navBorder;
+                subSettings.style.color = colors.text;
+                
+                subSettings.querySelectorAll('label, span').forEach(el => {
+                    el.style.color = colors.text;
+                });
+            }
+            
+            // Save theme preference in localStorage
+            localStorage.setItem('mangageek_theme', themeName);
+            
+            // Automatically adapt reading ruler colors to active theme
+            if (typeof updateRulerProperties === 'function') {
+                updateRulerProperties();
+            }
+        }
+
+        if (!manga) {
+            container.innerHTML = `<h2 style="color:white; margin-top:50px;">Book not found.</h2>`;
+        } else {
+            const chapterData = manga.chapters;
+            mangaTitleElem.textContent = manga.title;
+
+            // Check if chapter exists
+            if (!chapterData[currentChapter]) {
+                chapterTitleElem.textContent = `Chapter Not Found`;
+                container.innerHTML = `<h2 style="color:white; margin-top:50px;">Chapter not found.</h2>`;
+            } else {
+                const currentChapInfo = chapterData[currentChapter];
+                chapterTitleElem.textContent = currentChapInfo.title;
+                document.title = `Read ${manga.title} - ${currentChapInfo.title} | MangaGeek`;
+
+                if (manga.isText) {
+                    // Show book settings, hide page spacing setting
+                    document.getElementById('spacingSetting').style.display = 'none';
+                    document.getElementById('fontSizeSetting').style.display = 'block';
+                    document.getElementById('fontFamilySetting').style.display = 'block';
+                    document.getElementById('themeSetting').style.display = 'block';
+                    document.getElementById('rulerModeSetting').style.display = 'block';
+
+                    // Load saved font settings
+                    const savedFontSize = localStorage.getItem('mangageek_font_size') || '20px';
+                    const savedFontFamily = localStorage.getItem('mangageek_font_family') || "'Lora', serif";
+
+                    // Inject book pages
+                    let globalParagraphCounter = 0;
+                    currentChapInfo.pages.forEach((pageText, idx) => {
+                        const pageDiv = document.createElement('div');
+                        pageDiv.className = 'reader-text-page';
+                        pageDiv.dataset.pageIndex = idx;
+                        
+                        // Apply saved fonts directly as inline styles
+                        pageDiv.style.fontSize = savedFontSize;
+                        pageDiv.style.fontFamily = savedFontFamily;
+                        
+                        // Calculate actual page number dynamically by summing pages of all preceding chapters in this book
+                        let precedingPages = 0;
+                        for (let chapNum = 1; chapNum < currentChapter; chapNum++) {
+                            if (chapterData[chapNum] && chapterData[chapNum].pages) {
+                                precedingPages += chapterData[chapNum].pages.length;
+                            }
+                        }
+                        const actualPageNum = precedingPages + idx + 1;
+                        
+                        // Clean up double blank lines or formatting slightly
+                        const cleanedText = pageText.trim();
+                        // Segment by paragraph newlines and wrap in styled tags
+                        const paragraphArray = cleanedText.split(/\n+/).map(p => p.trim()).filter(p => p.length > 0);
+                        const paragraphsHtml = paragraphArray.map(p => {
+                            const html = `<p class="reader-paragraph" data-global-p-idx="${globalParagraphCounter}">${p}</p>`;
+                            globalParagraphCounter++;
+                            return html;
+                        }).join('\n');
+                        
+                        pageDiv.innerHTML = paragraphsHtml + `<span class="page-num">— Page ${actualPageNum} —</span>`;
+                        container.appendChild(pageDiv);
+                    });
+
+                    // Setup Book styling defaults and custom property setters
+                    const savedTheme = localStorage.getItem('mangageek_theme') || 'sepia';
+                    applyTheme(savedTheme);
+                    
+                    const themeSelectEl = document.getElementById('themeSelect');
+                    if (themeSelectEl) {
+                        themeSelectEl.value = savedTheme;
+                    }
+
+                    const fontSizeEl = document.getElementById('fontSize');
+                    if (fontSizeEl) {
+                        fontSizeEl.value = savedFontSize;
+                    }
+
+                    const fontFamilyEl = document.getElementById('fontFamily');
+                    if (fontFamilyEl) {
+                        fontFamilyEl.value = savedFontFamily;
+                    }
+
+                    // Bind settings inputs
+                    document.getElementById('fontSize').addEventListener('change', (e) => {
+                        document.querySelectorAll('.reader-text-page').forEach(page => {
+                            page.style.fontSize = e.target.value;
+                        });
+                        localStorage.setItem('mangageek_font_size', e.target.value);
+                    });
+                    document.getElementById('fontFamily').addEventListener('change', (e) => {
+                        document.querySelectorAll('.reader-text-page').forEach(page => {
+                            page.style.fontFamily = e.target.value;
+                        });
+                        localStorage.setItem('mangageek_font_family', e.target.value);
+                    });
+                    document.getElementById('themeSelect').addEventListener('change', (e) => {
+                        applyTheme(e.target.value);
+                    });
+                } else {
+                    // Inject images for regular manga
+                    currentChapInfo.pages.forEach((imgSrc, idx) => {
+                        const img = document.createElement('img');
+                        img.src = imgSrc;
+                        img.alt = `Page ${idx + 1}`;
+                        img.className = 'reader-image';
+                        container.appendChild(img);
+                    });
+                }
+                
+                // Setup Navigation Buttons
+                if (chapterData[currentChapter - 1]) {
+                    prevBtn.addEventListener('click', () => window.location.href = `reader.html?manga=${currentMangaId}&chapter=${currentChapter - 1}`);
+                } else {
+                    prevBtn.disabled = true;
+                }
+
+                if (chapterData[currentChapter + 1]) {
+                    nextBtn.addEventListener('click', () => window.location.href = `reader.html?manga=${currentMangaId}&chapter=${currentChapter + 1}`);
+                } else {
+                    nextBtn.disabled = true;
+                    nextBtn.textContent = 'End of Available Chapters';
+                }
+
+                // Populate Chapter Dropdown
+                Object.keys(chapterData).forEach(chapNum => {
+                    const option = document.createElement('option');
+                    option.value = chapNum;
+                    option.textContent = chapterData[chapNum].title;
+                    if (parseInt(chapNum) === currentChapter) {
+                        option.selected = true;
+                    }
+                    chapterSelect.appendChild(option);
+                });
+
+                chapterSelect.addEventListener('change', (e) => {
+                    window.location.href = `reader.html?manga=${currentMangaId}&chapter=${e.target.value}`;
+                });
+            }
+        }
+
+        // --- Settings Logic ---
+        const images = Array.from(document.querySelectorAll('.reader-image, .reader-text-page'));
+        const readingModeSelect = document.getElementById('readingMode');
+        const pageSpacingSelect = document.getElementById('pageSpacing');
+        const pageCounter = document.getElementById('pageCounter');
+        const currentPageNum = document.getElementById('currentPageNum');
+        const totalPagesNum = document.getElementById('totalPagesNum');
+        
+        let currentMode = localStorage.getItem('mangageek_reading_mode') || 'scroll';
+        if (readingModeSelect) {
+            readingModeSelect.value = currentMode;
+        }
+        let currentPageIndex = startPageParam - 1;
+        
+        if (images.length > 0) {
+            totalPagesNum.textContent = images.length;
+        }
+
+        function updateView() {
+            if (images.length === 0) return;
+            
+            if (currentMode === 'scroll') {
+                container.classList.remove('mode-paginated');
+                pageCounter.style.display = 'none';
+                if (!manga?.isText) {
+                    pageSpacingSelect.parentElement.style.display = 'block';
+                }
+                images.forEach(img => img.classList.remove('active-page'));
+            } else {
+                container.classList.add('mode-paginated');
+                pageCounter.style.display = 'flex';
+                pageSpacingSelect.parentElement.style.display = 'none';
+                images.forEach((img, index) => {
+                    if (index === currentPageIndex) {
+                        img.classList.add('active-page');
+                    } else {
+                        img.classList.remove('active-page');
+                    }
+                });
+                currentPageNum.textContent = currentPageIndex + 1;
+                window.scrollTo(0, 0);
+            }
+        }
+
+        readingModeSelect.addEventListener('change', (e) => {
+            currentMode = e.target.value;
+            localStorage.setItem('mangageek_reading_mode', currentMode);
+            updateView();
+        });
+
+        pageSpacingSelect.addEventListener('change', (e) => {
+            container.style.gap = e.target.value;
+        });
+
+        // Handle Tapping/Clicking in Paginated Mode
+        container.addEventListener('click', (e) => {
+            if (currentMode === 'paginated' && images.length > 0) {
+                // If it is a text page, do not register clicks on paragraphs/links if the user is highlighting
+                if (window.getSelection().toString() !== '') return;
+
+                const targetItem = e.target.closest('.reader-image, .reader-text-page');
+                if (!targetItem) return;
+
+                // Safeguard: If Line Reader is active in the center 60% of a text page, do not turn the page!
+                if (typeof rulerMode !== 'undefined' && rulerMode !== 'off' && targetItem.classList.contains('reader-text-page')) {
+                    const rect = targetItem.getBoundingClientRect();
+                    const clickX = e.clientX - rect.left;
+                    if (clickX >= rect.width * 0.2 && clickX <= rect.width * 0.8) {
+                        return; // Center clicks lock/unlock the ruler
+                    }
+                }
+                const rect = targetItem.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                
+                // Click right side to go next, left side to go back
+                if (clickX < rect.width / 2) {
+                    if (currentPageIndex > 0) {
+                        currentPageIndex--;
+                        updateView();
+                    } else {
+                        // Reached beginning of chapter
+                        if (!prevBtn.disabled) {
+                            window.location.href = `reader.html?manga=${currentMangaId}&chapter=${currentChapter - 1}`;
+                        } else {
+                            alert("This is the first page of the chapter!");
+                        }
+                    }
+                } else {
+                    if (currentPageIndex < images.length - 1) {
+                        currentPageIndex++;
+                        updateView();
+                    } else {
+                        // Reached end of chapter
+                        if (!nextBtn.disabled) {
+                            window.location.href = `reader.html?manga=${currentMangaId}&chapter=${currentChapter + 1}`;
+                        } else {
+                            alert("You've reached the end of the available chapters!");
+                        }
+                    }
+                }
+            }
+        });
+
+        // --- Bookmark & Resume Logic Engine (Explicit Save Only) ---
+
+        function saveProgress(isExplicit = false) {
+            if (!manga || images.length === 0) return;
+            
+            const progress = JSON.parse(localStorage.getItem('mangageek_progress')) || {};
+            
+            // Check if already bookmarked to enable "unbookmarking"
+            const record = progress[currentMangaId];
+            const isBookmarkedHere = !!record;
+                                     
+            if (isBookmarkedHere && isExplicit) {
+                delete progress[currentMangaId];
+                localStorage.setItem('mangageek_progress', JSON.stringify(progress));
+                updateBookmarkButtonState();
+                
+                const btn = document.getElementById('bookmarkBtn');
+                if (btn) {
+                    const span = btn.querySelector('span');
+                    const icon = btn.querySelector('i');
+                    if (span && icon) {
+                        span.textContent = "Removed!";
+                        icon.className = "fas fa-times";
+                        btn.style.borderColor = "#e74c3c";
+                        btn.style.color = "#e74c3c";
+                        btn.style.boxShadow = "0 0 15px rgba(231, 76, 60, 0.3)";
+                        
+                        setTimeout(() => {
+                            span.textContent = "Bookmark";
+                            icon.className = "far fa-bookmark";
+                            btn.style.borderColor = "";
+                            btn.style.color = "";
+                            btn.style.boxShadow = "";
+                        }, 1500);
+                    }
+                }
+                return;
+            }
+            
+            const pageNum = Math.min(currentPageIndex + 1, images.length);
+            
+            progress[currentMangaId] = {
+                mangaId: currentMangaId,
+                chapter: currentChapter,
+                page: pageNum,
+                totalPages: images.length,
+                chapterTitle: manga.chapters[currentChapter] ? manga.chapters[currentChapter].title : `Chapter ${currentChapter}`,
+                timestamp: Date.now()
+            };
+            
+            localStorage.setItem('mangageek_progress', JSON.stringify(progress));
+            
+            updateBookmarkButtonState();
+            
+            if (isExplicit) {
+                const btn = document.getElementById('bookmarkBtn');
+                if (btn) {
+                    const span = btn.querySelector('span');
+                    const icon = btn.querySelector('i');
+                    if (span && icon) {
+                        span.textContent = "Saved!";
+                        icon.className = "fas fa-check";
+                        btn.style.borderColor = "#2ecc71";
+                        btn.style.color = "#2ecc71";
+                        btn.style.boxShadow = "0 0 15px rgba(46, 204, 113, 0.3)";
+                        
+                        setTimeout(() => {
+                            span.textContent = "Bookmarked";
+                            icon.className = "fas fa-bookmark";
+                            btn.style.borderColor = "#ffd700";
+                            btn.style.color = "#ffd700";
+                            btn.style.boxShadow = "0 0 15px rgba(255, 215, 0, 0.25)";
+                        }, 1500);
+                    }
+                }
+            }
+        }
+
+        function updateBookmarkButtonState() {
+            const btn = document.getElementById('bookmarkBtn');
+            if (!btn) return;
+            
+            const progress = JSON.parse(localStorage.getItem('mangageek_progress')) || {};
+            const record = progress[currentMangaId];
+            
+            const isBookmarkedHere = !!record;
+                                     
+            const icon = btn.querySelector('i');
+            const span = btn.querySelector('span');
+            
+            if (isBookmarkedHere) {
+                btn.classList.add('active');
+                if (icon) icon.className = "fas fa-bookmark";
+                if (span) span.textContent = "Bookmarked";
+            } else {
+                btn.classList.remove('active');
+                if (icon) icon.className = "far fa-bookmark";
+                if (span) span.textContent = "Bookmark";
+            }
+        }
+
+        function scrollToSavedPage() {
+            if (currentPageIndex > 0 && images.length > currentPageIndex) {
+                const targetElement = images[currentPageIndex];
+                setTimeout(() => {
+                    targetElement.scrollIntoView({ behavior: 'auto', block: 'start' });
+                }, 300);
+            }
+        }
+
+        // Explicit Bookmark Click Event
+        document.getElementById('bookmarkBtn')?.addEventListener('click', () => {
+            saveProgress(true);
+        });
+
+        // --- Line Reader Business Logic & Persistence (State variables declared early at the top!) ---
+
+        function updateRulerMode(newMode) {
+            rulerMode = newMode;
+            rulerLocked = false; // Reset lock on mode change
+            localStorage.setItem('mangageek_ruler_mode', rulerMode);
+            
+            // Clean up existing elements
+            if (rulerEl) { rulerEl.remove(); rulerEl = null; }
+            if (maskTopEl) { maskTopEl.remove(); maskTopEl = null; }
+            if (maskBottomEl) { maskBottomEl.remove(); maskBottomEl = null; }
+            
+            const subSettings = document.getElementById('rulerSubSettings');
+            if (rulerMode === 'off') {
+                subSettings.style.display = 'none';
+                return;
+            }
+            
+            // Display ruler sub-settings panel
+            subSettings.style.display = 'flex';
+            
+            // Create the line ruler
+            rulerEl = document.createElement('div');
+            rulerEl.className = 'reading-ruler';
+            rulerEl.id = 'readingRuler';
+            container.appendChild(rulerEl);
+            
+            // Create top and bottom curtains if in mask mode
+            if (rulerMode === 'mask') {
+                maskTopEl = document.createElement('div');
+                maskTopEl.className = 'reading-mask';
+                maskTopEl.id = 'readingMaskTop';
+                
+                maskBottomEl = document.createElement('div');
+                maskBottomEl.className = 'reading-mask';
+                maskBottomEl.id = 'readingMaskBottom';
+                
+                container.appendChild(maskTopEl);
+                container.appendChild(maskBottomEl);
+            }
+            
+            // Configure styles dynamically based on current theme and customization inputs
+            updateRulerProperties();
+            
+            // Start guide at a friendly offset relative to the first text page
+            const firstPage = container.querySelector('.reader-text-page');
+            if (firstPage) {
+                const rect = firstPage.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                rulerY = rect.top - containerRect.top + 100;
+                positionRuler();
+            }
+        }
+
+        function updateRulerProperties() {
+            if (!rulerEl) return;
+            
+            const activeTheme = document.getElementById('themeSelect')?.value || 'sepia';
+            let color, border, indicator, shadow, maskBg;
+            
+            if (activeTheme === 'sepia') {
+                color = `rgba(224, 168, 0, ${rulerOpacity})`;
+                border = `rgba(224, 168, 0, 0.45)`;
+                indicator = `goldenrod`;
+                shadow = `0 0 10px rgba(224, 168, 0, 0.1)`;
+                maskBg = `rgba(253, 246, 227, 0.55)`;
+            } else if (activeTheme === 'dark') {
+                color = `rgba(255, 215, 0, ${rulerOpacity})`;
+                border = `rgba(255, 215, 0, 0.55)`;
+                indicator = `#ffd700`;
+                shadow = `0 0 15px rgba(255, 215, 0, 0.35), inset 0 0 10px rgba(255, 215, 0, 0.05)`;
+                maskBg = `rgba(0, 0, 0, 0.75)`;
+            } else { // light
+                // Adapt light theme opacity to keep it soft
+                const adjustedOpacity = Math.max(0.05, rulerOpacity - 0.05);
+                color = `rgba(0, 114, 255, ${adjustedOpacity})`;
+                border = `rgba(0, 114, 255, 0.35)`;
+                indicator = `#0072ff`;
+                shadow = `0 0 10px rgba(0, 114, 255, 0.1)`;
+                maskBg = `rgba(252, 252, 249, 0.65)`;
+            }
+            
+            document.documentElement.style.setProperty('--ruler-height', `${rulerHeight}px`);
+            document.documentElement.style.setProperty('--ruler-color', color);
+            document.documentElement.style.setProperty('--ruler-border', border);
+            document.documentElement.style.setProperty('--ruler-indicator', indicator);
+            document.documentElement.style.setProperty('--ruler-shadow', shadow);
+            document.documentElement.style.setProperty('--mask-bg', maskBg);
+            document.documentElement.style.setProperty('--mask-blur', activeTheme === 'dark' ? '0.5px' : '0px');
+            
+            if (rulerLocked) {
+                rulerEl.classList.add('locked');
+            } else {
+                rulerEl.classList.remove('locked');
+            }
+            
+            positionRuler();
+        }
+
+        function positionRuler() {
+            if (!rulerEl) return;
+            
+            const containerHeight = container.scrollHeight;
+            rulerY = Math.max(20, Math.min(rulerY, containerHeight - 20));
+            
+            rulerEl.style.top = `${rulerY}px`;
+            
+            if (rulerMode === 'mask' && maskTopEl && maskBottomEl) {
+                const topHeight = Math.max(0, rulerY - (rulerHeight / 2));
+                const bottomTop = rulerY + (rulerHeight / 2);
+                const bottomHeight = Math.max(0, containerHeight - bottomTop);
+                
+                maskTopEl.style.height = `${topHeight}px`;
+                
+                maskBottomEl.style.top = `${bottomTop}px`;
+                maskBottomEl.style.height = `${bottomHeight}px`;
+            }
+        }
+
+        // --- Event Listeners for Line Reader Interactive Dynamics ---
+        
+        // 1. Mouse Follow Hover Action
+        container.addEventListener('mousemove', (e) => {
+            if (rulerMode === 'off' || rulerLocked) return;
+            
+            // Only vertical trace inside active book text page
+            const textPage = e.target.closest('.reader-text-page');
+            if (!textPage) return;
+            
+            const containerRect = container.getBoundingClientRect();
+            rulerY = e.pageY - (window.scrollY + containerRect.top);
+            
+            positionRuler();
+        });
+
+        // 2. Click/Tap Lock and Unlock Mechanism
+        container.addEventListener('click', (e) => {
+            if (rulerMode === 'off') return;
+            
+            const textPage = e.target.closest('.reader-text-page');
+            if (!textPage) return;
+            
+            // Do not lock/unlock if highlighting text
+            if (window.getSelection().toString() !== '') return;
+            
+            const containerRect = container.getBoundingClientRect();
+            const relativeY = e.pageY - (window.scrollY + containerRect.top);
+            
+            if (currentMode === 'paginated') {
+                // In paginated mode, left/right clicks turn pages. Lock only inside middle 60%
+                const rect = textPage.getBoundingClientRect();
+                const clickX = e.clientX - rect.left;
+                if (clickX < rect.width * 0.2 || clickX > rect.width * 0.8) {
+                    return; // Ignore page turns
+                }
+            }
+            
+            if (!rulerLocked) {
+                rulerLocked = true;
+                rulerY = relativeY;
+            } else {
+                // If clicking right on or very close to current ruler position, unlock!
+                if (Math.abs(relativeY - rulerY) < 25) {
+                    rulerLocked = false;
+                } else {
+                    // Otherwise, snap to new locked position
+                    rulerY = relativeY;
+                }
+            }
+            
+            updateRulerProperties();
+        });
+
+        // 3. Hands-Free Keyboard Nudge Dynamics
+        window.addEventListener('keydown', (e) => {
+            if (rulerMode === 'off') return;
+            
+            const isUp = e.key === 'ArrowUp' || e.key === 'k' || e.key === 'K';
+            const isDown = e.key === 'ArrowDown' || e.key === 'j' || e.key === 'J';
+            
+            if (isUp || isDown) {
+                // Lock keyboard focus and nudge cleanly
+                e.preventDefault();
+                rulerLocked = true;
+                
+                const nudgeSpeed = 18; // nudge size in px
+                if (isUp) {
+                    rulerY -= nudgeSpeed;
+                } else {
+                    rulerY += nudgeSpeed;
+                }
+                
+                updateRulerProperties();
+            }
+        });
+
+        // 4. Input Controls Bindings
+        document.getElementById('rulerMode')?.addEventListener('change', (e) => {
+            updateRulerMode(e.target.value);
+        });
+
+        document.getElementById('rulerHeightRange')?.addEventListener('input', (e) => {
+            rulerHeight = parseInt(e.target.value);
+            localStorage.setItem('mangageek_ruler_height', rulerHeight);
+            const valSpan = document.getElementById('rulerHeightVal');
+            if (valSpan) valSpan.textContent = `${rulerHeight}px`;
+            updateRulerProperties();
+        });
+
+        document.getElementById('rulerOpacityRange')?.addEventListener('input', (e) => {
+            rulerOpacity = parseInt(e.target.value) / 100;
+            localStorage.setItem('mangageek_ruler_opacity', rulerOpacity);
+            const valSpan = document.getElementById('rulerOpacityVal');
+            if (valSpan) valSpan.textContent = `${e.target.value}%`;
+            updateRulerProperties();
+        });
+
+        // Initial setup call
+        updateView();
+        updateBookmarkButtonState();
+        
+        if (manga && manga.isText) {
+            // Restore Line Reader control inputs from localStorage
+            const rModeSelect = document.getElementById('rulerMode');
+            if (rModeSelect) rModeSelect.value = rulerMode;
+            
+            const rHeightRange = document.getElementById('rulerHeightRange');
+            if (rHeightRange) rHeightRange.value = rulerHeight;
+            const rHeightVal = document.getElementById('rulerHeightVal');
+            if (rHeightVal) rHeightVal.textContent = `${rulerHeight}px`;
+            
+            const rOpacityRange = document.getElementById('rulerOpacityRange');
+            if (rOpacityRange) rOpacityRange.value = Math.round(rulerOpacity * 100);
+            const rOpacityVal = document.getElementById('rulerOpacityVal');
+            if (rOpacityVal) rOpacityVal.textContent = `${Math.round(rulerOpacity * 100)}%`;
+            
+            // Activate the ruler guide!
+            updateRulerMode(rulerMode);
+        }
+        
+        if (currentMode === 'scroll') {
+            scrollToSavedPage();
+        }
+    </script>
+
+    <!-- Immersive Audio Suite Javascript Engine -->
+    <script>
+        (function() {
+            // Check if book or manga
+            const isBook = manga && manga.isText;
+            
+            // Audio elements and selectors
+            const audioToggle = document.getElementById('audioReaderToggle');
+            const playerPanel = document.getElementById('audioPlayerPanel');
+            const playerTitle = document.getElementById('audioPlayerTitle');
+            const statusText = document.getElementById('audioStatusText');
+            const statusPulse = document.getElementById('audioStatusPulse');
+            const progressTracker = document.getElementById('audioProgressTracker');
+            const playPauseBtn = document.getElementById('audioPlayPauseBtn');
+            const playPauseIcon = document.getElementById('audioPlayPauseIcon');
+            const stopBtn = document.getElementById('audioStopBtn');
+            const prevBtn = document.getElementById('audioPrevBtn');
+            const nextBtn = document.getElementById('audioNextBtn');
+            const minimizeBtn = document.getElementById('audioMinimizeBtn');
+            const minimizeIcon = document.getElementById('audioMinimizeIcon');
+            const closeBtn = document.getElementById('audioCloseBtn');
+            
+            // Sub panels
+            const bookSettings = document.getElementById('audioBookSettingsOnly');
+            const mangaSettings = document.getElementById('audioMangaSettingsOnly');
+            
+            // Settings controls
+            const voiceSelect = document.getElementById('audioVoiceSelect');
+            const rateRange = document.getElementById('audioRateRange');
+            const rateVal = document.getElementById('audioRateVal');
+            const pitchRange = document.getElementById('audioPitchRange');
+            const pitchVal = document.getElementById('audioPitchVal');
+            const autoTurnChk = document.getElementById('audioAutoTurnCheckbox');
+            const autoScrollChk = document.getElementById('audioAutoScrollCheckbox');
+            
+            const soundscapeSelect = document.getElementById('audioSoundscapeSelect');
+            const volumeRange = document.getElementById('audioVolumeRange');
+            const volumeVal = document.getElementById('audioVolumeVal');
+            
+            // State
+            let synth = window.speechSynthesis;
+            let activeParagraphIndex = -1;
+            let currentUtterance = null;
+            let isSpeaking = false;
+            let isPaused = false;
+            let isMinimized = false;
+            let voices = [];
+            
+            // Ambient Audio
+            let ambientPlayer = document.createElement('audio');
+            ambientPlayer.id = 'ambientAudioPlayer';
+            ambientPlayer.loop = true;
+            document.body.appendChild(ambientPlayer);
+            
+            const soundscapeUrls = {
+                battle: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3',
+                mystery: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-15.mp3',
+                lofi: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3',
+                nature: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3'
+            };
+            
+            // Load initial voice list for SpeechSynthesis
+            function loadVoices() {
+                if (!synth) return;
+                voices = synth.getVoices();
+                
+                // Clear existing
+                voiceSelect.innerHTML = '';
+                
+                // Filter English voices or provide all
+                const sortedVoices = [...voices].sort((a, b) => {
+                    if (a.lang.startsWith('en') && !b.lang.startsWith('en')) return -1;
+                    if (!a.lang.startsWith('en') && b.lang.startsWith('en')) return 1;
+                    return a.name.localeCompare(b.name);
+                });
+                
+                sortedVoices.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voice.name;
+                    option.textContent = `${voice.name} (${voice.lang})`;
+                    
+                    // Default selection: select Google US English or Microsoft David or first English
+                    if (voice.name.includes('Google US English') || voice.name.includes('David') || (voice.lang.startsWith('en') && voiceSelect.children.length === 0)) {
+                        option.selected = true;
+                    }
+                    voiceSelect.appendChild(option);
+                });
+                
+                // Restore saved voice if exists
+                const savedVoiceName = localStorage.getItem('mangageek_audio_voice');
+                if (savedVoiceName) {
+                    voiceSelect.value = savedVoiceName;
+                }
+            }
+            
+            // Handle loading voices dynamically since Web Speech API load is async
+            if (synth) {
+                loadVoices();
+                if (synth.onvoiceschanged !== undefined) {
+                    synth.onvoiceschanged = loadVoices;
+                }
+            }
+            
+            // Initialize view based on book vs manga
+            const hintEl = document.getElementById('audioHintText');
+            if (isBook) {
+                playerTitle.innerHTML = '<i class="fas fa-book-reader"></i> Book Narrator';
+                bookSettings.style.display = 'block';
+                mangaSettings.style.display = 'none';
+                prevBtn.style.display = 'flex';
+                nextBtn.style.display = 'flex';
+                if (hintEl) hintEl.style.display = 'block';
+            } else {
+                playerTitle.innerHTML = '<i class="fas fa-music"></i> Manga Soundscapes';
+                bookSettings.style.display = 'none';
+                mangaSettings.style.display = 'block';
+                prevBtn.style.display = 'none'; // Manga doesn't segment paragraphs
+                nextBtn.style.display = 'none';
+                if (hintEl) hintEl.style.display = 'none';
+            }
+            
+            // Toggle Audio Mode on/off
+            function toggleAudioMode(enable) {
+                if (enable) {
+                    audioToggle.value = 'on';
+                    playerPanel.classList.remove('hidden');
+                    localStorage.setItem('mangageek_audio_mode', 'on');
+                    
+                    // If book, auto select first visible paragraph as starting point
+                    if (isBook && activeParagraphIndex === -1) {
+                        activeParagraphIndex = getFirstVisibleParagraphIndex();
+                        const paragraphs = document.querySelectorAll('.reader-paragraph');
+                        if (paragraphs.length > 0) {
+                            progressTracker.textContent = `${activeParagraphIndex + 1} / ${paragraphs.length}`;
+                        } else {
+                            progressTracker.textContent = '0 / 0';
+                        }
+                    }
+                } else {
+                    audioToggle.value = 'off';
+                    playerPanel.classList.add('hidden');
+                    localStorage.setItem('mangageek_audio_mode', 'off');
+                    stopAllAudio();
+                }
+            }
+            
+            audioToggle.addEventListener('change', (e) => {
+                toggleAudioMode(e.target.value === 'on');
+            });
+            
+            // Find first visible paragraph on viewport
+            function getFirstVisibleParagraphIndex() {
+                const paragraphs = document.querySelectorAll('.reader-paragraph');
+                for (let i = 0; i < paragraphs.length; i++) {
+                    const rect = paragraphs[i].getBoundingClientRect();
+                    // Check if paragraph is visible in browser window
+                    if (rect.top >= 0 && rect.top <= window.innerHeight) {
+                        return i;
+                    }
+                }
+                return 0;
+            }
+            
+            // Highlight a single paragraph
+            function highlightParagraph(el) {
+                // Clear previous
+                document.querySelectorAll('.reader-paragraph').forEach(p => {
+                    p.classList.remove('active-reading');
+                });
+                if (el) {
+                    el.classList.add('active-reading');
+                }
+            }
+            
+            // Speech Narrator playback controls
+            function speakParagraph(index) {
+                if (!synth) return;
+                
+                // Stop any current
+                synth.cancel();
+                
+                const paragraphs = document.querySelectorAll('.reader-paragraph');
+                if (index < 0) {
+                    stopAllAudio();
+                    return;
+                }
+                
+                if (index >= paragraphs.length) {
+                    stopAllAudio();
+                    if (autoTurnChk.checked) {
+                        handleEndOfChapter();
+                    }
+                    return;
+                }
+                
+                activeParagraphIndex = index;
+                const p = paragraphs[index];
+                
+                // Highlight active block
+                highlightParagraph(p);
+                
+                // Manage Paginated page change if necessary
+                const parentPage = p.closest('.reader-text-page');
+                if (parentPage) {
+                    const pageIdx = parseInt(parentPage.dataset.pageIndex);
+                    if (currentMode === 'paginated' && currentPageIndex !== pageIdx) {
+                        currentPageIndex = pageIdx;
+                        updateView();
+                    }
+                }
+                
+                // Scroll in view
+                if (autoScrollChk.checked) {
+                    p.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+                
+                // Text-to-speech Utterance creation
+                currentUtterance = new SpeechSynthesisUtterance(p.textContent);
+                
+                // Configure speech settings
+                const selectedVoiceName = voiceSelect.value;
+                const foundVoice = voices.find(v => v.name === selectedVoiceName);
+                if (foundVoice) {
+                    currentUtterance.voice = foundVoice;
+                }
+                
+                currentUtterance.rate = parseFloat(rateRange.value);
+                currentUtterance.pitch = parseFloat(pitchRange.value);
+                
+                currentUtterance.onend = function() {
+                    if (isSpeaking && !isPaused) {
+                        speakParagraph(activeParagraphIndex + 1);
+                    }
+                };
+                
+                currentUtterance.onerror = function(event) {
+                    console.log("Speech utterance error event: ", event);
+                    if (event.error !== 'interrupted') {
+                        stopAllAudio();
+                    }
+                };
+                
+                progressTracker.textContent = `${activeParagraphIndex + 1} / ${paragraphs.length}`;
+                
+                isSpeaking = true;
+                isPaused = false;
+                updateUIState('speaking');
+                
+                synth.speak(currentUtterance);
+            }
+            
+            function handleEndOfChapter() {
+                if (!nextBtn.disabled) {
+                    const confirmNext = confirm("You've finished this chapter! Load next chapter and continue reading?");
+                    if (confirmNext) {
+                        window.location.href = `reader.html?manga=${currentMangaId}&chapter=${currentChapter + 1}&autoplay=true`;
+                    }
+                } else {
+                    alert("Congratulations! You've reached the end of this book!");
+                }
+            }
+            
+            function stopAllAudio() {
+                // Stop speech synthesis
+                if (synth) {
+                    synth.cancel();
+                }
+                
+                // Stop manga audio player
+                ambientPlayer.pause();
+                ambientPlayer.src = '';
+                
+                // Reset status values
+                isSpeaking = false;
+                isPaused = false;
+                updateUIState('stopped');
+                
+                // Clear active paragraph highlights
+                highlightParagraph(null);
+            }
+            
+            // Toggle play/pause state
+            function togglePlayPause() {
+                if (isBook) {
+                    if (!isSpeaking) {
+                        speakParagraph(activeParagraphIndex !== -1 ? activeParagraphIndex : 0);
+                    } else if (isPaused) {
+                        synth.resume();
+                        isPaused = false;
+                        updateUIState('speaking');
+                    } else {
+                        synth.pause();
+                        isPaused = true;
+                        updateUIState('paused');
+                    }
+                } else {
+                    // Manga ambient control
+                    const selectedTheme = soundscapeSelect.value;
+                    if (selectedTheme === 'none') {
+                        alert("Please select an Atmosphere theme first!");
+                        return;
+                    }
+                    
+                    if (ambientPlayer.paused) {
+                        ambientPlayer.play();
+                        isSpeaking = true;
+                        updateUIState('speaking');
+                    } else {
+                        ambientPlayer.pause();
+                        isSpeaking = false;
+                        updateUIState('paused');
+                    }
+                }
+            }
+            
+            function updateUIState(state) {
+                if (state === 'speaking') {
+                    playPauseIcon.className = "fas fa-pause";
+                    statusPulse.className = "audio-pulse-indicator";
+                    statusText.innerHTML = `${statusPulse.outerHTML} Narrating...`;
+                } else if (state === 'paused') {
+                    playPauseIcon.className = "fas fa-play";
+                    statusPulse.className = "audio-pulse-indicator paused";
+                    statusText.innerHTML = `${statusPulse.outerHTML} Paused`;
+                } else {
+                    playPauseIcon.className = "fas fa-play";
+                    statusPulse.className = "audio-pulse-indicator stopped";
+                    statusText.innerHTML = `${statusPulse.outerHTML} Stopped`;
+                }
+            }
+            
+            // Event Listeners for controls
+            playPauseBtn.addEventListener('click', togglePlayPause);
+            
+            stopBtn.addEventListener('click', stopAllAudio);
+            
+            prevBtn.addEventListener('click', () => {
+                if (activeParagraphIndex > 0) {
+                    speakParagraph(activeParagraphIndex - 1);
+                }
+            });
+            
+            nextBtn.addEventListener('click', () => {
+                const paragraphs = document.querySelectorAll('.reader-paragraph');
+                if (activeParagraphIndex < paragraphs.length - 1) {
+                    speakParagraph(activeParagraphIndex + 1);
+                }
+            });
+            
+            // Settings modifications
+            rateRange.addEventListener('input', (e) => {
+                rateVal.textContent = `${e.target.value}x`;
+                localStorage.setItem('mangageek_audio_rate', e.target.value);
+                if (isSpeaking && !isPaused) {
+                    // Restart from active paragraph to apply speed change immediately!
+                    speakParagraph(activeParagraphIndex);
+                }
+            });
+            
+            pitchRange.addEventListener('input', (e) => {
+                pitchVal.textContent = e.target.value;
+                localStorage.setItem('mangageek_audio_pitch', e.target.value);
+                if (isSpeaking && !isPaused) {
+                    speakParagraph(activeParagraphIndex);
+                }
+            });
+            
+            voiceSelect.addEventListener('change', (e) => {
+                localStorage.setItem('mangageek_audio_voice', e.target.value);
+                if (isSpeaking && !isPaused) {
+                    speakParagraph(activeParagraphIndex);
+                }
+            });
+            
+            // Click paragraph to read from here
+            container.addEventListener('click', (e) => {
+                const clickedParagraph = e.target.closest('.reader-paragraph');
+                if (clickedParagraph) {
+                    const idx = parseInt(clickedParagraph.dataset.globalPIdx);
+                    if (!isNaN(idx)) {
+                        // If audio mode is off, automatically enable it!
+                        if (!audioToggle || audioToggle.value !== 'on') {
+                            toggleAudioMode(true);
+                        }
+                        speakParagraph(idx);
+                    }
+                }
+            });
+            
+            // Manga Soundscape ambient events
+            soundscapeSelect.addEventListener('change', (e) => {
+                const theme = e.target.value;
+                localStorage.setItem('mangageek_manga_soundscape', theme);
+                
+                if (theme === 'none') {
+                    ambientPlayer.pause();
+                    ambientPlayer.src = '';
+                    isSpeaking = false;
+                    updateUIState('stopped');
+                } else {
+                    ambientPlayer.src = soundscapeUrls[theme];
+                    ambientPlayer.volume = parseInt(volumeRange.value) / 100;
+                    ambientPlayer.play().then(() => {
+                        isSpeaking = true;
+                        updateUIState('speaking');
+                    }).catch(err => {
+                        console.log("Audio play error: ", err);
+                        alert("Interaction required: Click Play to start the soundtrack!");
+                    });
+                }
+            });
+            
+            volumeRange.addEventListener('input', (e) => {
+                volumeVal.textContent = `${e.target.value}%`;
+                localStorage.setItem('mangageek_manga_volume', e.target.value);
+                ambientPlayer.volume = parseInt(e.target.value) / 100;
+            });
+            
+            // Minimize Widget
+            function toggleMinimize() {
+                isMinimized = !isMinimized;
+                localStorage.setItem('mangageek_audio_minimized', isMinimized ? 'true' : 'false');
+                
+                if (isMinimized) {
+                    playerPanel.classList.add('minimized');
+                    minimizeIcon.className = "fas fa-chevron-up";
+                } else {
+                    playerPanel.classList.remove('minimized');
+                    minimizeIcon.className = "fas fa-chevron-down";
+                }
+            }
+            
+            minimizeBtn.addEventListener('click', toggleMinimize);
+            
+            closeBtn.addEventListener('click', () => {
+                toggleAudioMode(false);
+            });
+            
+            // Restore user preferences
+            function restorePreferences() {
+                const savedRate = localStorage.getItem('mangageek_audio_rate') || '1.0';
+                rateRange.value = savedRate;
+                rateVal.textContent = `${savedRate}x`;
+                
+                const savedPitch = localStorage.getItem('mangageek_audio_pitch') || '1.0';
+                pitchRange.value = savedPitch;
+                pitchVal.textContent = savedPitch;
+                
+                const savedAutoTurn = localStorage.getItem('mangageek_audio_auto_turn');
+                if (savedAutoTurn !== null) {
+                    autoTurnChk.checked = savedAutoTurn === 'true';
+                }
+                
+                const savedAutoScroll = localStorage.getItem('mangageek_audio_auto_scroll');
+                if (savedAutoScroll !== null) {
+                    autoScrollChk.checked = savedAutoScroll === 'true';
+                }
+                
+                const savedSoundscape = localStorage.getItem('mangageek_manga_soundscape') || 'none';
+                soundscapeSelect.value = savedSoundscape;
+                
+                const savedVolume = localStorage.getItem('mangageek_manga_volume') || '50';
+                volumeRange.value = savedVolume;
+                volumeVal.textContent = `${savedVolume}%`;
+                
+                const savedMode = localStorage.getItem('mangageek_audio_mode') || 'off';
+                const autoplayParam = loaderParams.get('autoplay') === 'true' || urlParams.get('autoplay') === 'true';
+                
+                // Restore minimized
+                const savedMin = localStorage.getItem('mangageek_audio_minimized') === 'true';
+                if (savedMin) {
+                    toggleMinimize();
+                }
+                
+                if (savedMode === 'on' || autoplayParam) {
+                    setTimeout(() => {
+                        toggleAudioMode(true);
+                        // If autoplay parameter is set, immediately begin reading!
+                        if (autoplayParam && isBook) {
+                            speakParagraph(0);
+                        }
+                    }, 500);
+                }
+            }
+            
+            restorePreferences();
+            
+            // Stop speech synthesis if user closes tab
+            window.addEventListener('beforeunload', () => {
+                if (synth) synth.cancel();
+            });
+        })();
+    </script>
+</body>
+</html>

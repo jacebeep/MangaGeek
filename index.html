@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MangaGeek - Read Masterpieces & Manga Online</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffd700">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/logo.png" alt="MangaGeek Logo">
+            <h1>MangaGeek</h1>
+        </div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search for books or manga...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html#popularGrid">Featured</a></li>
+            <li><a href="index.html#latestGrid">Latest</a></li>
+            <li><a href="genres.html">Genres</a></li>
+        </ul>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h2 id="hero-title">Featured Books</h2>
+            <p id="hero-desc">Discover the finest curated selection of timeless literature, scriptures, and sensational manga. Fully digitized and reformatted for a premium reading experience.</p>
+            <button class="btn-primary">Read Now</button>
+        </div>
+        <div class="hero-overlay"></div>
+    </header>
+
+    <main>
+        <section class="continue-reading" id="continueSection" style="display: none; margin-bottom: 4rem;">
+            <h2><i class="fas fa-history" style="color: #ffd700; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));"></i> Continue Reading</h2>
+            <div class="manga-grid" id="continueGrid">
+                <!-- Bookmarked progress cards injected here -->
+            </div>
+        </section>
+
+        <section class="trending">
+            <h2><i class="fas fa-star" style="color: #ffd700; filter: drop-shadow(0 0 6px rgba(255, 215, 0, 0.7));"></i> Most Popular</h2>
+            <div class="manga-grid" id="popularGrid">
+                <!-- Manga cards will be injected here via JS -->
+            </div>
+        </section>
+
+        <section class="latest">
+            <h2><i class="fas fa-clock"></i> Latest Updates</h2>
+            <div id="searchSuggestionContainer"></div>
+            <div class="manga-grid" id="latestGrid">
+                <!-- Manga cards will be injected here via JS -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo">
+                <img src="assets/logo.png" alt="MangaGeek Logo">
+                <h2>MangaGeek</h2>
+            </div>
+            <p>Your ultimate source for free manga reading online. Read anywhere, anytime.</p>
+            <div class="socials">
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-discord"></i></a>
+                <a href="#"><i class="fab fa-reddit"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 MangaGeek. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Clean up and disable Service Worker to prevent caching during development
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(registrations => {
+                for (let registration of registrations) {
+                    registration.unregister().then(() => {
+                        console.log('[Service Worker] Unregistered successfully to bypass cache');
+                    });
+                }
+            });
+            if (window.caches) {
+                caches.keys().then(names => {
+                    for (let name of names) {
+                        caches.delete(name);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
