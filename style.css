@@ -1347,20 +1347,28 @@ footer {
 
     /* Hero compact scaling to prevent text overflow */
     .hero {
-        height: auto !important;
-        min-height: 35vh !important;
-        padding: 2.5rem 4% 2rem !important;
+        height: 52vh !important; /* Premium tall hero display */
+        min-height: 52vh !important;
+        display: flex !important;
+        align-items: flex-end !important;
+        padding: 2rem 5% 2.5rem !important;
         margin-top: 0 !important;
     }
+    .hero-content {
+        position: relative !important;
+        z-index: 5 !important;
+    }
     .hero h2 {
-        font-size: 2rem !important;
+        font-size: 1.8rem !important; /* Compact size so it fits perfectly on mobile */
+        margin-bottom: 0.6rem !important;
     }
     .hero p {
-        font-size: 0.95rem !important;
+        font-size: 0.88rem !important;
         margin-bottom: 1.2rem !important;
+        line-height: 1.4 !important;
     }
     .btn-primary {
-        padding: 0.75rem 1.5rem !important;
+        padding: 0.65rem 1.4rem !important;
         font-size: 0.85rem !important;
     }
 
