@@ -1238,13 +1238,13 @@ footer {
    ========================================== */
 
 @media (max-width: 768px) {
-    /* Safe layout for body with a fixed navbar */
-    .navbar ~ .hero,
-    .navbar ~ .genre-hero,
-    .navbar ~ .search-hero,
-    .navbar ~ .auth-container,
-    .navbar ~ main {
-        margin-top: 135px !important; /* Push below the taller 3-row mobile navbar */
+    /* Safe layout for body with a fixed navbar - only push the very first element directly below the navbar */
+    .navbar + .hero,
+    .navbar + .genre-hero,
+    .navbar + .search-hero,
+    .navbar + .auth-container,
+    .navbar + main {
+        margin-top: 135px !important; /* Push only the immediate sibling below the navbar */
     }
 
     /* Navbar premium 3-row layout for mobile */
