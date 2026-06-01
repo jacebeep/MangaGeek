@@ -939,13 +939,89 @@
                     });
                 } else {
                     // Inject images for regular manga
-                    currentChapInfo.pages.forEach((imgSrc, idx) => {
-                        const img = document.createElement('img');
-                        img.src = imgSrc;
-                        img.alt = `Page ${idx + 1}`;
-                        img.className = 'reader-image';
-                        container.appendChild(img);
-                    });
+                    if (currentChapInfo.chapterId) {
+                        // Create a premium glassmorphic loading spinner inside the container
+                        container.innerHTML = `
+                            <div class="manga-loading-spinner" id="mangaLoadingSpinner" style="text-align: center; padding: 6rem 2rem; color: #ffd700; font-family: 'Outfit', sans-serif;">
+                                <div class="spinner-icon" style="font-size: 3.5rem; margin-bottom: 1.5rem; animation: spin 1.5s linear infinite;"><i class="fas fa-spinner"></i></div>
+                                <div class="spinner-text" style="font-size: 1.25rem; font-weight: 600; letter-spacing: 0.5px;">Retrieving Authentic Manga Panels...</div>
+                                <div class="spinner-sub" style="font-size: 0.88rem; color: #aaa; margin-top: 0.6rem;">Fetching high-resolution scans from MangaDex servers</div>
+                            </div>
+                        `;
+                        
+                        // Dynamic keyframe injection for spin animation
+                        if (!document.getElementById('spinAnimationStyles')) {
+                            const style = document.createElement('style');
+                            style.id = 'spinAnimationStyles';
+                            style.innerHTML = `
+                                @keyframes spin {
+                                    0% { transform: rotate(0deg); }
+                                    100% { transform: rotate(360deg); }
+                                }
+                            `;
+                            document.head.appendChild(style);
+                        }
+
+                        // Fetch pages from MangaDex @Home API in real-time
+                        fetch(`https://api.mangadex.org/at-home/server/${currentChapInfo.chapterId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                if (!data || !data.chapter) {
+                                    throw new Error("Invalid chapter server data response from MangaDex API.");
+                                }
+                                const baseUrl = data.baseUrl;
+                                const chHash = data.chapter.hash;
+                                const filenames = data.chapter.dataSaver || data.chapter.data;
+                                const folder = data.chapter.dataSaver ? 'data-saver' : 'data';
+                                
+                                if (!filenames || filenames.length === 0) {
+                                    throw new Error("MangaDex reported no pages available for this chapter.");
+                                }
+
+                                // Remove loading spinner
+                                const spinner = document.getElementById('mangaLoadingSpinner');
+                                if (spinner) spinner.remove();
+
+                                // Inject images
+                                filenames.forEach((fn, idx) => {
+                                    const img = document.createElement('img');
+                                    img.src = `${baseUrl}/${folder}/${chHash}/${fn}`;
+                                    img.alt = `Page ${idx + 1}`;
+                                    img.className = 'reader-image';
+                                    img.onerror = () => {
+                                        if (folder === 'data-saver' && data.chapter.data) {
+                                            img.src = `${baseUrl}/data/${chHash}/${data.chapter.data[idx]}`;
+                                        }
+                                    };
+                                    container.appendChild(img);
+                                });
+
+                                // Dynamic re-initialize controls once images are in the DOM!
+                                if (typeof initializeReader === 'function') {
+                                    initializeReader();
+                                }
+                            })
+                            .catch(err => {
+                                console.error(err);
+                                container.innerHTML = `
+                                    <div style="text-align: center; padding: 6rem 2rem; color: #ff416c; font-family: 'Outfit', sans-serif;">
+                                        <div style="font-size: 3.5rem; margin-bottom: 1.5rem;"><i class="fas fa-exclamation-triangle"></i></div>
+                                        <div style="font-size: 1.25rem; font-weight: 600;">Unable to load manga panels</div>
+                                        <div style="font-size: 0.88rem; color: #aaa; margin-top: 0.6rem; max-width: 450px; margin-left: auto; margin-right: auto; line-height: 1.5;">${err.message || 'Check your internet connection or try again later.'}</div>
+                                        <button onclick="window.location.reload()" style="margin-top: 1.8rem; background: #ffd700; color: #000; border: none; padding: 0.7rem 1.8rem; border-radius: 30px; font-weight: 600; cursor: pointer; transition: transform 0.2s;"><i class="fas fa-redo"></i> Retry Loading</button>
+                                    </div>
+                                `;
+                            });
+                    } else if (currentChapInfo.pages) {
+                        // Inject images for regular local manga
+                        currentChapInfo.pages.forEach((imgSrc, idx) => {
+                            const img = document.createElement('img');
+                            img.src = imgSrc;
+                            img.alt = `Page ${idx + 1}`;
+                            img.className = 'reader-image';
+                            container.appendChild(img);
+                        });
+                    }
                 }
                 
                 // Setup Navigation Buttons
@@ -980,7 +1056,7 @@
         }
 
         // --- Settings Logic ---
-        const images = Array.from(document.querySelectorAll('.reader-image, .reader-text-page'));
+        let images = [];
         const readingModeSelect = document.getElementById('readingMode');
         const pageSpacingSelect = document.getElementById('pageSpacing');
         const pageCounter = document.getElementById('pageCounter');
@@ -992,9 +1068,19 @@
             readingModeSelect.value = currentMode;
         }
         let currentPageIndex = startPageParam - 1;
+
+        function initializeReader() {
+            images = Array.from(document.querySelectorAll('.reader-image, .reader-text-page'));
+            if (images.length > 0) {
+                totalPagesNum.textContent = images.length;
+            }
+            updateView();
+            saveProgress(false); // Auto-save progress book bookmark
+        }
         
-        if (images.length > 0) {
-            totalPagesNum.textContent = images.length;
+        // Auto-run initialization immediately for text novels / local books
+        if (manga && (manga.isText || (manga.chapters[currentChapter] && manga.chapters[currentChapter].pages))) {
+            setTimeout(initializeReader, 50);
         }
 
         function updateView() {
