@@ -1,0 +1,90 @@
+const slamDunkData = {
+    "title": "Slam Dunk",
+    "isText": false,
+    "chapters": {
+        "1": {
+            "title": "Chapter 1: \u0633\u0644\u0627\u0645 \u062f\u0627\u0646\u0643",
+            "pages": [
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/1-a59127dbd46e4ef254d077897a324d01b43ccb2c980be5ffe165ee03daf5c3e3.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/2-b0c21589079b7e7b6b38c510a2f393536e4664b3a3b7414a6ad0c0ddf89a8665.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/3-ede7e9ff8533bd096fe5843a3b0a062bacca567299277138884ef4a74f064170.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/4-025933fcb15de71834e8ece5e774c2efe153b6a55960a4fc75e95bbc017a53bc.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/5-887215b81316d043bd9a1ac99840b61aff700f24996c9f12b263e5f03a119f94.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/6-0d96d664c4578350bbd081cba39ed8c12f8b27a5f822cecdff2cf9f5a74bc870.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/7-ff55dcd1c235b6c4bd28973475cd042c2933b0d0b14da19b16a0139f9ce72c91.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/8-62d8fab4a60cf69bd64915501082a5bd940570de8cf82d581e679fc0c0600dd1.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/9-5a0583c58cf9f4efdf94f40211ac539311e900dc316e644e0443b49b30988044.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/10-27fece6414c3ab81c6fb7cd6ba656230e5b0232c90d8e5c0ddb5f03c5c831000.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/11-82490f6f000055552d559c8ba35b9f3bb43d9181a39b336e73cc4002b30ea932.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/12-3d731cad01f419cf31cc0ee30c33a0e6a2acbcaece367047e81637083a1aa47c.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/13-704f049449fcc8ef7645cf40cde2606b2d9c2fc331245dfba834dfd269fb8f7d.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/14-46eb2e82b13061cac8d815913d300f8d6603ebc5c0464b615a19b90c769f0e59.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/15-271380df29181bb658d86dae0b8985b00c4dc4cfeb651e5af0fe8f0c1c300c86.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/16-cf1a6d06340d5eab2d698fcf56e5ab57f26a617cf012ba3631348e7b78cd9d3e.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/17-078a1383d2b363b0760085d78d20273e7df6beeedfdb837941ad3454c530bec9.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/18-e8924cc530cc1e251e464e55498cd7a905efeea986f210c38b7ebca7c3107032.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/19-8d1caaf9078c710c794559c616a14c2b609904b3f6f8f38f791b696dc55a3706.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/20-4a7a87092106daf6d5a4c383c01ed39c9e769a48a58713a5354ba1424e23f416.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/21-395a718424bfda14416ff4f4693df02a6f625c65c48bcac932a8431243836473.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/22-30a3303b93913886c415ed59ce8cfdee311877ab70d213fc7e1a0fdb7bc04931.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/23-cd63c90fda897a9bf66fe69dcc0b1acc327262dd855822ce6b5636ee87afe9b1.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/24-9522012593601a5848c5d84defcffe69612304469d79ba5632743b100bec7298.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/25-9a45433a4b435bf8e0ab7a404a27e5acedb70787fd49c437f26e8667c531ac11.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/26-841a06dc822fc8952c85ce8a315a5870be661e5cae9d0783be3ac688543f5a2e.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/27-85a2ba811f6a3db9810e2eace503c7eea3bc15a1c5542ccb46939c62953909f3.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/bd402aeab821bb792f34a971d0c98592/28-84e17ff24118c94ab43807d0eace6535e10e8075337075e07665b667cc073e06.jpg"
+            ]
+        },
+        "2": {
+            "title": "Chapter 2: \u0631\u0648\u0643\u0627\u0648\u0627 \u0643\u0627\u064a\u062f\u064a",
+            "pages": [
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/1-cd901d9d455ad476f9fabb438fbb038d58686b7d497ce590d96dc099874a62d3.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/2-5afc1eb9e978c4979833c50a2f0ed2ae0c2c882d407648607552415488b51b49.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/3-bf1a0a6876923311ef4541727b3856f69c5900516b61cbcf1544f8a04ca89638.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/4-e4041c6ea75cf878a3485be2d958f336418f6222d1167b7acae68401133ebf7e.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/5-7122964b8e3ac63f67c0d6fecaaed5e4d3c7c116007ec92fcab2576c04962f95.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/6-29d8c0021e7da13c220391135ac4dd64eb925acf4b8f431177b1440331c78564.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/7-01d3eac7697c61db5ceefbca45163dcd7cfa906952b5481f6818619283f0026a.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/8-04269743a88f6b647a620c4d49d316d136876c5133dfe2469789eb1ca7aa2357.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/9-c02bd23df287ee6cc0ab72c608cc4a61947ed0445e4f5ff68a9661538adf03de.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/10-20e8797f8df8b340d222762496d430d1680b073dbf9da41d4ba884d4ed361838.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/11-59fa235941e63b849bec81e78ea5676a95d2f7ac9b0a1c57530b4589f33f355c.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/12-05f1a7a82362b4358060c832bcd221f8c06c9648d2e533e181e5c5bfd08ebc35.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/13-0c6b15ae08a4d66a8a6a9098841bc8475560ecccc4ad28c9ff43140fa2256d35.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/14-ee9afd0ae32f3bcd8547ab8d7e9297404151dba39dc21bbb7319072e66cb3d57.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/15-11ad8af58e79a5ec6592dcc064836860a5515b32d0142c4327570a5b52ec55d5.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/16-16fca30723b9d139616f58f68a50c6e467b6ca385231f1888498a3f7a781363f.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/17-7247f8b28ad97d04193bd416cd57980f6b6f8b50eb3c433714a759482a0bb6ef.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/18-f14223474f0d8d14774aebb7af0019e3040654115c7c904d9b2aba1724629b57.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/19-f057093d87cb65b7e675180335df8a671ef86e3d107c1b918eaebc7fcc0dfd28.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/b4dbbdc01bf913c2360a197c7151dbf0/20-2335efd3b8ffc96c0e2856dc1e7df8a8dbef6825573ef8001f7953a5a25af97f.jpg"
+            ]
+        },
+        "3": {
+            "title": "Chapter 3: BLOOD",
+            "pages": [
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/1-06d3107015a2c07def9cc66089da9c712c071d1bb5badcf552fd58ef99e37a35.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/2-7f29316ad48a508bdd46f70b28d9bcc5b85dbe826b2f7197b0b090d827c7ba06.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/3-6ebe67599f8c4fc2dd45930f6a255b8944349e32e736dcc7a0c014a66ac54aa1.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/4-d032ebbce66a1d8d358cfd556279814958289fbb344f4dd9abd088f98918fa14.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/5-b3361e7359abcbc08718684b715eb0cd8e4a8741ea9a5319e010cb7041b6a081.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/6-d11d2a10cc25b911506ee55edefe6640c46ab0b43b393e1606188cc2b35f52d3.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/7-aff2daa74f462756aac065de38dbd1ecd0fab07d14150eb2de2fd89c86a6ece6.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/8-de112a84611897727d956ce35138c48a5a669bce92d91a6c64e3ee13a2553da8.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/9-962b23b918415ac76ecd01f5126fda005eb98960b8a445dcbf3acebc25570305.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/10-9aee8af682c5fcfb0f6d15451ddf5df35114cfab34bfc505dbc222e918f3bda7.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/11-7ed88efbf4632feac0103b429e6aadc5722614709aec98f089c733a6e3f649f1.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/12-6ed30023d09513a3991beb9a9468ba87644a59e3fbe62231477e1001dd6fdd15.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/13-2c8c00c55396723cb99b68cb052b4bcc9283f25adc240d39822e4919aba9c95f.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/14-8ac7dbb84c88da53b3cf683654fb12ab635bb90146fe4875f604f1b38bde144d.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/15-a006224ff5a35b50f23369539ff3f4ecf21a6366fb0931810fa1d7f8b5404e53.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/16-965a396be9413f1af0028abb171101fad4115b5992307f33f30d80287eb95bba.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/17-f121069a39ba59d06f129b74076efefb9f1599b911d149244672017249c005d2.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/18-17ffd8612d1007303a7d4b8f6fb3cec13076b98eba8b7a9a31c064120006a4fa.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/19-16cd133e8e8aa76dc0b9026dd327da8a0e69606020f4f0c1d360f72bf9b8e357.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/20-1029d7eefd57afea2d14fe57602adb832d2fab1ae66069bac75603e01f63ce00.jpg",
+                "https://cmdxd98sb0x3yprd.mangadex.network/data-saver/4b9e25d34f42e41a0bd63deaa3ba1f2a/21-144dac105c50752549dcc4e4ac0d2bb709989675cd1e44aecff71ab6441cbc71.jpg"
+            ]
+        }
+    }
+};

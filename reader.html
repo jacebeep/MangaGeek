@@ -579,7 +579,26 @@
             'peter-pan': 'peter_pan_data.js',
             'the-odyssey': 'the_odyssey_data.js',
             'the-iliad': 'the_iliad_data.js',
-            'one-piece': 'one_piece_data.js'
+            'one-piece': 'one_piece_data.js',
+            'naruto': 'naruto_data.js',
+            'attack-on-titan': 'attack_on_titan_data.js',
+            'demon-slayer': 'demon_slayer_data.js',
+            'jujutsu-kaisen': 'jujutsu_kaisen_data.js',
+            'my-hero-academia': 'my_hero_academia_data.js',
+            'chainsaw-man': 'chainsaw_man_data.js',
+            'bleach': 'bleach_data.js',
+            'hunter-x-hunter': 'hunter_x_hunter_data.js',
+            'fullmetal-alchemist': 'fullmetal_alchemist_data.js',
+            'tokyo-ghoul': 'tokyo_ghoul_data.js',
+            'one-punch-man': 'one_punch_man_data.js',
+            'solo-leveling': 'solo_leveling_data.js',
+            'berserk': 'berserk_data.js',
+            'monster': 'monster_data.js',
+            'jojo-bizarre-adventure': 'jojo_bizarre_adventure_data.js',
+            'vagabond': 'vagabond_data.js',
+            'vinland-saga': 'vinland_saga_data.js',
+            'slam-dunk': 'slam_dunk_data.js',
+            'haikyuu': 'haikyuu_data.js'
         };
         const scriptToLoad = scriptMapForLoader[currentMangaIdForLoader] || 'data.js';
         document.write('<script src="script.js"><\/script>');
@@ -610,6 +629,25 @@
             if (typeof spidermanData !== 'undefined') window.mangaDatabase["spiderman-3"] = spidermanData;
             if (typeof spiderman701Data !== 'undefined') window.mangaDatabase["spiderman-701"] = spiderman701Data;
             if (typeof onePieceData !== 'undefined') window.mangaDatabase["one-piece"] = onePieceData;
+            if (typeof narutoData !== 'undefined') window.mangaDatabase["naruto"] = narutoData;
+            if (typeof attackOnTitanData !== 'undefined') window.mangaDatabase["attack-on-titan"] = attackOnTitanData;
+            if (typeof demonSlayerData !== 'undefined') window.mangaDatabase["demon-slayer"] = demonSlayerData;
+            if (typeof jujutsuKaisenData !== 'undefined') window.mangaDatabase["jujutsu-kaisen"] = jujutsuKaisenData;
+            if (typeof myHeroAcademiaData !== 'undefined') window.mangaDatabase["my-hero-academia"] = myHeroAcademiaData;
+            if (typeof chainsawManData !== 'undefined') window.mangaDatabase["chainsaw-man"] = chainsawManData;
+            if (typeof bleachData !== 'undefined') window.mangaDatabase["bleach"] = bleachData;
+            if (typeof hunterXHunterData !== 'undefined') window.mangaDatabase["hunter-x-hunter"] = hunterXHunterData;
+            if (typeof fullmetalAlchemistData !== 'undefined') window.mangaDatabase["fullmetal-alchemist"] = fullmetalAlchemistData;
+            if (typeof tokyoGhoulData !== 'undefined') window.mangaDatabase["tokyo-ghoul"] = tokyoGhoulData;
+            if (typeof onePunchManData !== 'undefined') window.mangaDatabase["one-punch-man"] = onePunchManData;
+            if (typeof soloLevelingData !== 'undefined') window.mangaDatabase["solo-leveling"] = soloLevelingData;
+            if (typeof berserkData !== 'undefined') window.mangaDatabase["berserk"] = berserkData;
+            if (typeof monsterData !== 'undefined') window.mangaDatabase["monster"] = monsterData;
+            if (typeof jojoBizarreAdventureData !== 'undefined') window.mangaDatabase["jojo-bizarre-adventure"] = jojoBizarreAdventureData;
+            if (typeof vagabondData !== 'undefined') window.mangaDatabase["vagabond"] = vagabondData;
+            if (typeof vinlandSagaData !== 'undefined') window.mangaDatabase["vinland-saga"] = vinlandSagaData;
+            if (typeof slamDunkData !== 'undefined') window.mangaDatabase["slam-dunk"] = slamDunkData;
+            if (typeof haikyuuData !== 'undefined') window.mangaDatabase["haikyuu"] = haikyuuData;
         }
 
         let manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
