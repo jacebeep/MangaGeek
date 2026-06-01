@@ -330,6 +330,7 @@
 <body style="background-color: #000;">
     <nav class="reader-nav">
         <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Home</a>
+        <a href="index.html#analyticsSection" class="back-btn" style="font-size:1rem; margin-left: 1rem;"><i class="fas fa-chart-bar"></i> Stats</a>
         <div class="chapter-info">
             <h1 id="manga-title">Manga Title</h1>
             <p id="chapter-title">Chapter Title</p>
@@ -580,6 +581,7 @@
             'the-iliad': 'the_iliad_data.js'
         };
         const scriptToLoad = scriptMapForLoader[currentMangaIdForLoader] || 'data.js';
+        document.write('<script src="script.js"><\/script>');
         document.write('<script src="' + scriptToLoad + '"><\/script>');
     </script>
     <script>
@@ -608,7 +610,44 @@
             if (typeof spiderman701Data !== 'undefined') window.mangaDatabase["spiderman-701"] = spiderman701Data;
         }
 
-        const manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
+        let manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
+
+        // Dynamic 3-chapter narrative preview builder fallback for newly generated catalog items
+        if (!manga && typeof mockMangaData !== 'undefined') {
+            const catalogItem = mockMangaData.find(m => m.mangaId === currentMangaId);
+            if (catalogItem) {
+                const formattedTitle = catalogItem.title;
+                manga = {
+                    title: formattedTitle,
+                    isText: true,
+                    chapters: {
+                        1: {
+                            title: "Chapter 1: The Gathering Storm",
+                            pages: [
+                                `Welcome to the premium digital edition of ${formattedTitle}.\n\nThis is Chapter 1: The Journey Begins.\n\nThe world was quiet before the legends started. In the heart of the action, our protagonist set out on an unforgettable quest. Surrounded by loyal companions and facing insurmountable adversaries, the destiny of ${formattedTitle} begins to unfold here.\n\n"We must keep moving forward," they vowed. "No matter how dark the path becomes. We are the masters of our fate."\n\nStay tuned as this spectacular masterpiece develops!`,
+                                `This is page 2 of Chapter 1 of ${formattedTitle}.\n\nAs the sun dipped below the horizon, the true challenges arose. The wind whispered long-forgotten secrets, and ancient powers stirred in the shadows. What lies ahead remains shrouded in mystery, but the resolve of the brave never falters.\n\n"Strength does not come from physical capacity. It comes from an indomitable will," they reflected, looking toward the distant horizon.`
+                            ]
+                        },
+                        2: {
+                            title: "Chapter 2: Path of the Warrior",
+                            pages: [
+                                `This is Chapter 2: The Fire Inside.\n\nWith new allies by their side and lessons learned from past skirmishes, the journey grew more intense. Every step brought them closer to the ultimate truth. The shadows gathered thick and heavy, but so did the light of determination.\n\n"The only way to do great work is to love what you do," our hero remembered, raising their blade to meet the coming storm.`,
+                                `This is page 2 of Chapter 2.\n\nThe battle lines are drawn, and the clash of opposing ideals is inevitable. The story of ${formattedTitle} continues to unfold with breathtaking momentum and heart-pounding suspense!`
+                            ]
+                        },
+                        3: {
+                            title: "Chapter 3: Legacy of Legends",
+                            pages: [
+                                `This is Chapter 3: Unleashed Destiny.\n\nIn a spectacular display of raw power, tactical brilliance, and sheer willpower, the peak of the adventure is finally reached. The stars aligned, and a new legend was forged in the heat of combat.\n\n"A champion is defined not by their wins, but by how they can recover when they fall."`,
+                                `Thank you for reading the interactive preview of ${formattedTitle} on MangaGeek!\n\nA premium fully-digitized copy of the complete publication is currently being reformatted. Bookmark your progress to save this title to your library and track your reading analytics!`
+                            ]
+                        }
+                    }
+                };
+                if (typeof window.mangaDatabase === 'undefined') window.mangaDatabase = {};
+                window.mangaDatabase[currentMangaId] = manga;
+            }
+        }
 
         // --- Line Reader State Variables (Declared early at the top to resolve Temporal Dead Zone ReferenceErrors!) ---
         let rulerMode = localStorage.getItem('mangageek_ruler_mode') || 'off';

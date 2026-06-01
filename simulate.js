@@ -24,6 +24,7 @@ const makeElement = (tag, id = '') => {
                 console.log(`  [DOM] Style.setProperty: ${name} = ${val}`);
             }
         },
+        dataset: {},
         classList: {
             add: (cls) => { console.log(`  [DOM] ClassList.add: ${cls}`); },
             remove: (cls) => { console.log(`  [DOM] ClassList.remove: ${cls}`); },

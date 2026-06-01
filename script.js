@@ -1,6 +1,6 @@
 // MangaGeek Logic
 
-// Placeholder data - replace these image URLs with your local 'assets/images/filename.jpg' once you upload them!
+// Catalog data expanded with 20 new legendary titles with popularity, ratings, and reads statistics
 const mockMangaData = [
     {
         id: 9,
@@ -10,6 +10,9 @@ const mockMangaData = [
         genre: "Action / Shonen",
         latestChapter: "Ch. 25",
         trending: true,
+        popularity: 98,
+        rating: 4.9,
+        views: "124.5k",
         aliases: ["dbs", "goku", "dragonball", "vegeta", "saiyan"]
     },
     {
@@ -21,6 +24,9 @@ const mockMangaData = [
         latestChapter: "Ch. 17",
         trending: true,
         startChapter: 1,
+        popularity: 95,
+        rating: 4.8,
+        views: "98.2k",
         aliases: ["deathnote", "kira", "l", "shinigami", "ryuk"]
     },
     {
@@ -32,6 +38,9 @@ const mockMangaData = [
         latestChapter: "Ch. 34",
         trending: true,
         startChapter: 18,
+        popularity: 94,
+        rating: 4.8,
+        views: "95.1k",
         aliases: ["deathnote", "kira", "l", "shinigami", "ryuk"]
     },
     {
@@ -43,6 +52,9 @@ const mockMangaData = [
         latestChapter: "Ch. 66",
         trending: true,
         startChapter: 35,
+        popularity: 93,
+        rating: 4.7,
+        views: "92.0k",
         aliases: ["deathnote", "kira", "l", "shinigami", "ryuk"]
     },
     {
@@ -54,6 +66,9 @@ const mockMangaData = [
         latestChapter: "Full Novel",
         trending: true,
         startChapter: 1,
+        popularity: 75,
+        rating: 4.5,
+        views: "41.3k",
         aliases: ["it", "pennywise", "clown", "stephen king", "horror"]
     },
     {
@@ -65,6 +80,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 82,
+        rating: 4.6,
+        views: "64.8k",
         aliases: ["power", "48 laws", "greene", "manipulation", "control"]
     },
     {
@@ -76,6 +94,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 86,
+        rating: 4.7,
+        views: "78.2k",
         aliases: ["art of war", "sun tzu", "war", "suntzu", "strategy"]
     },
     {
@@ -87,6 +108,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 99,
+        rating: 4.9,
+        views: "500k",
         aliases: ["bible", "jesus", "god", "christ", "lord", "holy bible", "scripture"]
     },
     {
@@ -98,6 +122,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 80,
+        rating: 4.4,
+        views: "52.4k",
         aliases: ["rich dad", "poor dad", "kiyosaki", "finance", "money", "wealth", "business"]
     },
     {
@@ -109,6 +136,9 @@ const mockMangaData = [
         latestChapter: "Ch. 3",
         trending: true,
         startChapter: 1,
+        popularity: 72,
+        rating: 4.5,
+        views: "38.1k",
         aliases: ["spiderman", "peter parker", "marvel", "spider-man", "webslinger", "hero"]
     },
     {
@@ -120,6 +150,9 @@ const mockMangaData = [
         latestChapter: "Ch. 2",
         trending: true,
         startChapter: 1,
+        popularity: 70,
+        rating: 4.4,
+        views: "34.5k",
         aliases: ["spiderman", "peter parker", "marvel", "spider-man", "webslinger", "hero", "701"]
     },
     {
@@ -131,6 +164,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 65,
+        rating: 4.3,
+        views: "29.4k",
         aliases: ["alice", "wonderland", "rabbit", "cheshire", "carroll", "classic"]
     },
     {
@@ -142,6 +178,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 68,
+        rating: 4.5,
+        views: "31.2k",
         aliases: ["pride", "prejudice", "darcy", "elizabeth", "bennet", "austen", "classic"]
     },
     {
@@ -153,6 +192,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 62,
+        rating: 4.2,
+        views: "24.5k",
         aliases: ["frankenstein", "monster", "victor", "shelley", "gothic", "classic"]
     },
     {
@@ -164,6 +206,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 78,
+        rating: 4.6,
+        views: "45.8k",
         aliases: ["sherlock", "holmes", "watson", "doyle", "baker street", "mystery", "classic"]
     },
     {
@@ -175,6 +220,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 66,
+        rating: 4.4,
+        views: "28.1k",
         aliases: ["dracula", "vampire", "harker", "van helsing", "stoker", "classic"]
     },
     {
@@ -186,6 +234,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 71,
+        rating: 4.5,
+        views: "33.7k",
         aliases: ["gatsby", "nick carraway", "daisy", "fitzgerald", "west egg", "classic"]
     },
     {
@@ -197,6 +248,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 73,
+        rating: 4.6,
+        views: "35.1k",
         aliases: ["metamorphosis", "samsa", "gregor", "kafka", "bug", "classic"]
     },
     {
@@ -208,6 +262,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 60,
+        rating: 4.1,
+        views: "19.8k",
         aliases: ["two cities", "dickens", "sydney carton", "darney", "london", "paris", "classic"]
     },
     {
@@ -219,6 +276,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 58,
+        rating: 4.0,
+        views: "18.3k",
         aliases: ["moby", "dick", "ishmael", "ahab", "whale", "melville", "classic"]
     },
     {
@@ -230,6 +290,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 70,
+        rating: 4.5,
+        views: "32.0k",
         aliases: ["dorian", "gray", "wilde", "portrait", "lord henry", "basil", "classic"]
     },
     {
@@ -241,6 +304,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 57,
+        rating: 4.1,
+        views: "16.4k",
         aliases: ["time machine", "wells", "traveler", "morlocks", "eloi", "classic"]
     },
     {
@@ -252,6 +318,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 61,
+        rating: 4.2,
+        views: "21.0k",
         aliases: ["war worlds", "martians", "tripod", "wells", "invasion", "classic"]
     },
     {
@@ -263,6 +332,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 67,
+        rating: 4.3,
+        views: "26.5k",
         aliases: ["romeo", "juliet", "capulet", "montague", "shakespeare", "verona", "classic"]
     },
     {
@@ -274,6 +346,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 55,
+        rating: 4.0,
+        views: "14.2k",
         aliases: ["darkness", "conrad", "marlow", "kurtz", "congo", "classic"]
     },
     {
@@ -285,6 +360,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 63,
+        rating: 4.3,
+        views: "22.5k",
         aliases: ["treasure", "island", "jim hawkins", "long john silver", "pirate", "stevenson", "classic"]
     },
     {
@@ -296,6 +374,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 64,
+        rating: 4.3,
+        views: "23.1k",
         aliases: ["jekyll", "hyde", "duality", "stevenson", "utterson", "classic"]
     },
     {
@@ -307,6 +388,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 59,
+        rating: 4.1,
+        views: "17.8k",
         aliases: ["grimm", "fairy tales", "cinderella", "rapunzel", "hansel", "gretel", "classic"]
     },
     {
@@ -318,6 +402,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 62,
+        rating: 4.2,
+        views: "20.1k",
         aliases: ["peter", "pan", "wendy", "hook", "neverland", "tinkerbell", "classic"]
     },
     {
@@ -329,6 +416,9 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 76,
+        rating: 4.6,
+        views: "41.9k",
         aliases: ["odyssey", "homer", "odysseus", "ulysses", "epic", "greek", "classic"]
     },
     {
@@ -340,23 +430,337 @@ const mockMangaData = [
         latestChapter: "Full Book",
         trending: true,
         startChapter: 1,
+        popularity: 74,
+        rating: 4.5,
+        views: "39.4k",
         aliases: ["iliad", "homer", "achilles", "troy", "hector", "greek", "war", "classic"]
+    },
+    // Adding 20 Legendary Manga Titles with complete metadata & dynamic fallbacks
+    {
+        id: 40,
+        mangaId: "one-piece",
+        title: "One Piece",
+        image: "assets/images/one_piece_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 1080",
+        trending: true,
+        popularity: 100,
+        rating: 4.9,
+        views: "152.0k",
+        aliases: ["onepiece", "luffy", "zoro", "pirate", "strawhat", "oda"]
+    },
+    {
+        id: 41,
+        mangaId: "naruto",
+        title: "Naruto",
+        image: "assets/images/naruto_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 700",
+        trending: true,
+        popularity: 92,
+        rating: 4.7,
+        views: "110.4k",
+        aliases: ["naruto", "sasuke", "ninja", "hokage", "uzumaki", "kishimoto"]
+    },
+    {
+        id: 42,
+        mangaId: "attack-on-titan",
+        title: "Attack on Titan",
+        image: "assets/images/attack_on_titan_cover.png",
+        genre: "Drama / Thriller",
+        latestChapter: "Ch. 139",
+        trending: true,
+        popularity: 94,
+        rating: 4.8,
+        views: "104.1k",
+        aliases: ["aot", "shingeki", "eren", "mikasa", "titan", "levi"]
+    },
+    {
+        id: 43,
+        mangaId: "demon-slayer",
+        title: "Demon Slayer",
+        image: "assets/images/demon_slayer_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 205",
+        trending: true,
+        popularity: 96,
+        rating: 4.8,
+        views: "115.8k",
+        aliases: ["kimetsu", "tanjiro", "nezuko", "slayer", "hashira", "muzan"]
+    },
+    {
+        id: 44,
+        mangaId: "jujutsu-kaisen",
+        title: "Jujutsu Kaisen",
+        image: "assets/images/jujutsu_kaisen_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 220",
+        trending: true,
+        popularity: 91,
+        rating: 4.7,
+        views: "95.3k",
+        aliases: ["jjk", "itadori", "gojo", "sukuna", "curse", "sorcerer"]
+    },
+    {
+        id: 45,
+        mangaId: "my-hero-academia",
+        title: "My Hero Academia",
+        image: "assets/images/my_hero_academia_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 385",
+        trending: true,
+        popularity: 89,
+        rating: 4.6,
+        views: "88.2k",
+        aliases: ["mha", "bnha", "deku", "bakugo", "allmight", "hero"]
+    },
+    {
+        id: 46,
+        mangaId: "chainsaw-man",
+        title: "Chainsaw Man",
+        image: "assets/images/chainsaw_man_cover.png",
+        genre: "Action / Thriller",
+        latestChapter: "Ch. 125",
+        trending: true,
+        popularity: 90,
+        rating: 4.7,
+        views: "92.1k",
+        aliases: ["csm", "denji", "power", "makima", "pochita", "devil"]
+    },
+    {
+        id: 47,
+        mangaId: "bleach",
+        title: "Bleach",
+        image: "assets/images/bleach_cover.png",
+        genre: "Action / Shonen",
+        latestChapter: "Ch. 686",
+        trending: true,
+        popularity: 87,
+        rating: 4.6,
+        views: "85.7k",
+        aliases: ["ichigo", "rukia", "shinigami", "soul society", "aizen"]
+    },
+    {
+        id: 48,
+        mangaId: "hunter-x-hunter",
+        title: "Hunter x Hunter",
+        image: "assets/images/hunter_x_hunter_cover.png",
+        genre: "Action / Adventure",
+        latestChapter: "Ch. 400",
+        trending: true,
+        popularity: 93,
+        rating: 4.9,
+        views: "82.3k",
+        aliases: ["hxh", "gon", "killua", "kurapika", "nen", "togashi"]
+    },
+    {
+        id: 49,
+        mangaId: "fullmetal-alchemist",
+        title: "Fullmetal Alchemist",
+        image: "assets/images/fullmetal_alchemist_cover.png",
+        genre: "Action / Philosophy",
+        latestChapter: "Ch. 108",
+        trending: true,
+        popularity: 91,
+        rating: 4.9,
+        views: "79.1k",
+        aliases: ["fma", "fmab", "edward", "elric", "alphonse", "alchemy"]
+    },
+    {
+        id: 50,
+        mangaId: "tokyo-ghoul",
+        title: "Tokyo Ghoul",
+        image: "assets/images/tokyo_ghoul_cover.png",
+        genre: "Horror / Thriller",
+        latestChapter: "Ch. 143",
+        trending: true,
+        popularity: 88,
+        rating: 4.7,
+        views: "76.5k",
+        aliases: ["ghoul", "kaneki", "touka", "anteiku", "ccg"]
+    },
+    {
+        id: 51,
+        mangaId: "one-punch-man",
+        title: "One Punch Man",
+        image: "assets/images/one_punch_man_cover.png",
+        genre: "Action / Comedy",
+        latestChapter: "Ch. 180",
+        trending: true,
+        popularity: 92,
+        rating: 4.8,
+        views: "90.4k",
+        aliases: ["opm", "saitama", "genos", "garou", "hero", "one"]
+    },
+    {
+        id: 52,
+        mangaId: "solo-leveling",
+        title: "Solo Leveling",
+        image: "assets/images/solo_leveling_cover.png",
+        genre: "Action / Fantasy",
+        latestChapter: "Ch. 179",
+        trending: true,
+        popularity: 97,
+        rating: 4.8,
+        views: "130.2k",
+        aliases: ["sololeveling", "jinwoo", "hunter", "shadow", "necromancer"]
+    },
+    {
+        id: 53,
+        mangaId: "berserk",
+        title: "Berserk",
+        image: "assets/images/berserk_cover.png",
+        genre: "Action / Horror / Philosophy",
+        latestChapter: "Ch. 370",
+        trending: true,
+        popularity: 90,
+        rating: 4.9,
+        views: "72.8k",
+        aliases: ["guts", "griffith", "casca", "behelit", "miura", "eclipse"]
+    },
+    {
+        id: 54,
+        mangaId: "monster",
+        title: "Monster",
+        image: "assets/images/monster_cover.png",
+        genre: "Thriller / Mystery",
+        latestChapter: "Ch. 162",
+        trending: true,
+        popularity: 84,
+        rating: 4.8,
+        views: "55.4k",
+        aliases: ["tenma", "johan", "liebert", "urazawa", "mystery"]
+    },
+    {
+        id: 55,
+        mangaId: "jojo-bizarre-adventure",
+        title: "JoJo's Bizarre Adventure",
+        image: "assets/images/jojo_bizarre_adventure_cover.png",
+        genre: "Action / Fantasy",
+        latestChapter: "Ch. 99",
+        trending: true,
+        popularity: 86,
+        rating: 4.7,
+        views: "68.2k",
+        aliases: ["jojo", "jotaro", "dio", "stand", "araki", "dio brando"]
+    },
+    {
+        id: 56,
+        mangaId: "vagabond",
+        title: "Vagabond",
+        image: "assets/images/vagabond_cover.png",
+        genre: "Philosophy / Drama / History",
+        latestChapter: "Ch. 327",
+        trending: true,
+        popularity: 83,
+        rating: 4.9,
+        views: "48.9k",
+        aliases: ["musashi", "takehiko", "inoue", "samurai", "sword"]
+    },
+    {
+        id: 57,
+        mangaId: "vinland-saga",
+        title: "Vinland Saga",
+        image: "assets/images/vinland_saga_cover.png",
+        genre: "Action / History / Philosophy",
+        latestChapter: "Ch. 200",
+        trending: true,
+        popularity: 85,
+        rating: 4.8,
+        views: "52.4k",
+        aliases: ["thorfinn", "askeladd", "viking", "vinland", "saga"]
+    },
+    {
+        id: 58,
+        mangaId: "slam-dunk",
+        title: "Slam Dunk",
+        image: "assets/images/slam_dunk_cover.png",
+        genre: "Drama / Sport",
+        latestChapter: "Ch. 276",
+        trending: true,
+        popularity: 82,
+        rating: 4.8,
+        views: "45.1k",
+        aliases: ["sakuragi", "rukawa", "basketball", "shohoku", "inoue"]
+    },
+    {
+        id: 59,
+        mangaId: "haikyuu",
+        title: "Haikyuu!!",
+        image: "assets/images/haikyuu_cover.png",
+        genre: "Drama / Sport",
+        latestChapter: "Ch. 402",
+        trending: true,
+        popularity: 86,
+        rating: 4.8,
+        views: "58.7k",
+        aliases: ["hinata", "kageyama", "volleyball", "karasuno", "spiker"]
     }
 ];
 
+// Fallback error-handling dynamic gradient generator for manga cover cards
+function handleImageError(imgElement, title, genre) {
+    const colors = getGenreColors(genre);
+    const parent = imgElement.parentElement;
+    if (!parent) return;
+
+    // Create container
+    const fallbackDiv = document.createElement('div');
+    fallbackDiv.className = 'manga-cover-fallback';
+    fallbackDiv.style.background = `linear-gradient(135deg, ${colors.primary}, ${colors.secondary})`;
+    fallbackDiv.innerHTML = `
+        <div class="fallback-glass-overlay">
+            <div class="fallback-genre-icon"><i class="${colors.icon}"></i></div>
+            <div class="fallback-title">${title}</div>
+            <div class="fallback-subtitle">${genre}</div>
+        </div>
+    `;
+
+    // Hide original image and render the fallback card
+    imgElement.style.display = 'none';
+    parent.appendChild(fallbackDiv);
+}
+
+// Categorized theme presets for cover fallbacks
+function getGenreColors(genre) {
+    const g = genre.toLowerCase();
+    if (g.includes('action') || g.includes('shonen')) {
+        return { primary: '#ff416c', secondary: '#ff4b2b', icon: 'fas fa-fire' };
+    } else if (g.includes('thriller') || g.includes('mystery') || g.includes('detective')) {
+        return { primary: '#8a2387', secondary: '#e94057', icon: 'fas fa-user-secret' };
+    } else if (g.includes('horror')) {
+        return { primary: '#11998e', secondary: '#38ef7d', icon: 'fas fa-ghost' };
+    } else if (g.includes('strategy') || g.includes('self-help')) {
+        return { primary: '#02aab0', secondary: '#00cdac', icon: 'fas fa-chess-knight' };
+    } else if (g.includes('philosophy') || g.includes('classic')) {
+        return { primary: '#f12711', secondary: '#f5af19', icon: 'fas fa-monument' };
+    } else if (g.includes('spiritual') || g.includes('scripture')) {
+        return { primary: '#00c6ff', secondary: '#0072ff', icon: 'fas fa-bible' };
+    } else if (g.includes('romance')) {
+        return { primary: '#ec008c', secondary: '#fc6767', icon: 'fas fa-heart' };
+    } else if (g.includes('sport')) {
+        return { primary: '#f12711', secondary: '#f5af19', icon: 'fas fa-running' };
+    } else {
+        return { primary: '#4facfe', secondary: '#00f2fe', icon: 'fas fa-book-open' };
+    }
+}
+
+// Render dynamic manga cards with premium ratings and statistics support
 function createMangaCard(manga, isPopular = false) {
     const startCh = manga.startChapter || 1;
     const starBadge = isPopular ? `<div class="popular-star-badge"><i class="fas fa-star"></i></div>` : '';
+    const ratingStars = manga.rating ? `<div class="card-rating"><i class="fas fa-star" style="color:#ffd700;"></i> ${manga.rating} • ${manga.views || '10k'} reads</div>` : '';
     return `
         <a href="reader.html?manga=${manga.mangaId}&chapter=${startCh}" class="manga-card ${isPopular ? 'featured-card' : ''}" style="display: block;">
             <div class="card-image-container">
                 ${starBadge}
-                <img src="${manga.image}" alt="${manga.title}">
+                <img src="${manga.image}" alt="${manga.title}" onerror="handleImageError(this, '${manga.title.replace(/'/g, "\\'")}', '${manga.genre}')">
                 <div class="chapter-badge">${manga.latestChapter}</div>
             </div>
             <div class="card-content">
                 <h3 class="card-title">${manga.title}</h3>
                 <p class="card-genre">${manga.genre}</p>
+                ${ratingStars}
             </div>
         </a>
     `;
@@ -394,7 +798,7 @@ function renderContinueReading() {
             <a href="reader.html?manga=${mangaId}&chapter=${record.chapter}&page=${page}" class="manga-card" style="display: block; position: relative;">
                 <div class="card-image-container">
                     <div class="bookmark-badge"><i class="fas fa-bookmark"></i> Bookmark</div>
-                    <img src="${manga.image}" alt="${manga.title}">
+                    <img src="${manga.image}" alt="${manga.title}" onerror="handleImageError(this, '${manga.title.replace(/'/g, "\\'")}', '${manga.genre}')">
                     <div class="chapter-badge">${record.chapterTitle || ('Ch. ' + record.chapter)}</div>
                 </div>
                 <div class="card-content">
@@ -413,36 +817,193 @@ function renderContinueReading() {
     });
 }
 
+// Compute and render real-time statistics dashboard panel
+function renderStatistics() {
+    const statsContainer = document.getElementById('analyticsSection');
+    if (!statsContainer) return;
+
+    // Load progress
+    const progress = JSON.parse(localStorage.getItem('mangageek_progress')) || {};
+    const entries = Object.entries(progress);
+    
+    // User progress stats
+    const titlesInProgress = entries.length;
+    
+    let totalEstimatedMinutes = 0;
+    const genreTally = {};
+    
+    entries.forEach(([mangaId, record]) => {
+        const manga = mockMangaData.find(m => m.mangaId === mangaId);
+        const pagesRead = record.page || 1;
+        const chaptersCount = record.chapter || 1;
+        
+        // Dynamic reading time estimation: 15 mins per chapter, 1.5 mins per page
+        totalEstimatedMinutes += (chaptersCount - 1) * 15 + pagesRead * 1.5;
+        
+        if (manga) {
+            const genres = manga.genre.split('/').map(g => g.trim());
+            genres.forEach(g => {
+                genreTally[g] = (genreTally[g] || 0) + 1;
+            });
+        }
+    });
+
+    const totalHours = Math.round((totalEstimatedMinutes / 60) * 10) / 10;
+
+    // Reading streak calculations (resets if inactive > 48 hrs)
+    let streak = parseInt(localStorage.getItem('mangageek_streak')) || 0;
+    const lastReadTimestamp = parseInt(localStorage.getItem('mangageek_last_read')) || 0;
+    const now = Date.now();
+    const oneDayMs = 24 * 60 * 60 * 1000;
+    
+    if (lastReadTimestamp > 0) {
+        const diffMs = now - lastReadTimestamp;
+        if (diffMs <= oneDayMs) {
+            if (streak === 0) streak = 1;
+        } else if (diffMs <= 2 * oneDayMs) {
+            streak++;
+            localStorage.setItem('mangageek_streak', streak);
+        } else {
+            streak = 1;
+            localStorage.setItem('mangageek_streak', streak);
+        }
+    } else {
+        if (titlesInProgress > 0) {
+            streak = 1;
+            localStorage.setItem('mangageek_streak', streak);
+        }
+    }
+    
+    if (titlesInProgress > 0 && lastReadTimestamp === 0) {
+        localStorage.setItem('mangageek_last_read', now);
+    }
+
+    // Top Genre calculation
+    let favoriteGenre = "None";
+    let maxTally = 0;
+    Object.entries(genreTally).forEach(([g, count]) => {
+        if (count > maxTally) {
+            maxTally = count;
+            favoriteGenre = g;
+        }
+    });
+
+    // Populate the global statistics dashboard template
+    statsContainer.innerHTML = `
+        <div class="stats-dashboard-wrapper">
+            <h2 class="section-title-glow"><i class="fas fa-chart-bar" style="color: #ffd700;"></i> Analytics & Dashboard</h2>
+            
+            <div class="stats-grid">
+                <!-- User Stat Card 1 -->
+                <div class="stats-card user-stat">
+                    <div class="stats-card-icon"><i class="fas fa-book-reader"></i></div>
+                    <div class="stats-card-val">${titlesInProgress}</div>
+                    <div class="stats-card-label">In Progress</div>
+                    <div class="stats-card-sub text-glow">Personal Library</div>
+                </div>
+                <!-- User Stat Card 2 -->
+                <div class="stats-card user-stat">
+                    <div class="stats-card-icon"><i class="fas fa-hourglass-half"></i></div>
+                    <div class="stats-card-val">${totalHours} hrs</div>
+                    <div class="stats-card-label">Read Time</div>
+                    <div class="stats-card-sub text-glow">Estimated Duration</div>
+                </div>
+                <!-- User Stat Card 3 -->
+                <div class="stats-card user-stat">
+                    <div class="stats-card-icon"><i class="fas fa-fire-alt"></i></div>
+                    <div class="stats-card-val">${streak} Days</div>
+                    <div class="stats-card-label">Reading Streak</div>
+                    <div class="stats-card-sub text-glow">Daily Consistency</div>
+                </div>
+                <!-- Global Stat Card 1 -->
+                <div class="stats-card global-stat">
+                    <div class="stats-card-icon"><i class="fas fa-atlas"></i></div>
+                    <div class="stats-card-val">${mockMangaData.length}</div>
+                    <div class="stats-card-label">Catalog Size</div>
+                    <div class="stats-card-sub">Active Publications</div>
+                </div>
+                <!-- Global Stat Card 2 -->
+                <div class="stats-card global-stat">
+                    <div class="stats-card-icon"><i class="fas fa-users"></i></div>
+                    <div class="stats-card-val">142.4k</div>
+                    <div class="stats-card-label">Active Readers</div>
+                    <div class="stats-card-sub">Community Size</div>
+                </div>
+                <!-- Global Stat Card 3 -->
+                <div class="stats-card global-stat">
+                    <div class="stats-card-icon"><i class="fas fa-star"></i></div>
+                    <div class="stats-card-val text-truncate">${favoriteGenre !== "None" ? favoriteGenre : "Explore Now"}</div>
+                    <div class="stats-card-label">Favorite Genre</div>
+                    <div class="stats-card-sub">Based on Progress</div>
+                </div>
+            </div>
+
+            <div class="stats-charts-row">
+                <div class="stats-chart-card">
+                    <h3><i class="fas fa-medal" style="color: #ffd700;"></i> Favorite Genres Breakdown</h3>
+                    <div class="genre-bars-container">
+                        ${titlesInProgress === 0 ? `
+                            <div class="no-stats-prompt">
+                                <i class="fas fa-info-circle"></i>
+                                <p>Start reading or bookmarking any manga to populate your personal favorite genre analyzer!</p>
+                            </div>
+                        ` : Object.entries(genreTally).sort((a,b) => b[1] - a[1]).slice(0, 4).map(([genre, count]) => {
+                            const percent = Math.round((count / titlesInProgress) * 100);
+                            return `
+                                <div class="genre-bar-item">
+                                    <div class="genre-bar-label">
+                                        <span>${genre}</span>
+                                        <span>${count} ${count === 1 ? 'title' : 'titles'} (${percent}%)</span>
+                                    </div>
+                                    <div class="genre-bar-track">
+                                        <div class="genre-bar-fill" style="width: ${percent}%;"></div>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>
+
+                <div class="stats-chart-card">
+                    <h3><i class="fas fa-chart-line" style="color: #ffd700;"></i> Simulation & Operations</h3>
+                    <div class="simulator-box">
+                        <p>Simulate dynamic reading updates to test analytics and view immediate responses.</p>
+                        <button class="btn-primary btn-sm" id="btnSimulateRead" onclick="triggerMockReadingActivity()">
+                            <i class="fas fa-bolt"></i> Simulate Reading Progress
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// Render dynamic homepage categories
 function renderManga() {
     const popularGrid = document.getElementById('popularGrid');
     const latestGrid = document.getElementById('latestGrid');
     
-    // Clear existing content
     if(popularGrid) popularGrid.innerHTML = '';
     if(latestGrid) latestGrid.innerHTML = '';
 
-    // Most Popular Selection: Bible is ALWAYS first, followed by 5 random books
-    const bible = mockMangaData.find(m => m.mangaId === 'holy-bible-kjv');
-    const others = mockMangaData.filter(m => m.mangaId !== 'holy-bible-kjv');
-    
-    // Shuffle the rest of the catalog randomly
-    const shuffledOthers = [...others].sort(() => 0.5 - Math.random());
-    const selectedOthers = shuffledOthers.slice(0, 5);
-    
-    const popularManga = [];
-    if (bible) popularManga.push(bible);
-    popularManga.push(...selectedOthers);
+    // Most Popular Selection: Exclude the Bible from the "Most Popular" selection, and sort by true popularity views!
+    const popularManga = mockMangaData
+        .filter(m => m.mangaId !== 'holy-bible-kjv')
+        .sort((a, b) => (b.popularity || 0) - (a.popularity || 0))
+        .slice(0, 6);
 
-    // Render Most Popular (6 books total, Bible first, with shining gold star)
+    // Render Most Popular
     popularManga.forEach(manga => {
         if(popularGrid) popularGrid.innerHTML += createMangaCard(manga, true);
     });
 
-    // Render Latest Updates (all books, without star)
-    mockMangaData.forEach(manga => {
+    // Render Latest Updates sorted by ID descending
+    const latestManga = [...mockMangaData].sort((a, b) => b.id - a.id);
+    latestManga.forEach(manga => {
         if(latestGrid) latestGrid.innerHTML += createMangaCard(manga, false);
     });
 }
+
 
 // Levenshtein Distance for string similarity
 function levenshteinDistance(a, b) {
@@ -560,6 +1121,7 @@ window.applySuggestion = function(title) {
 document.addEventListener('DOMContentLoaded', () => {
     renderContinueReading();
     renderManga();
+    renderStatistics();
 
     // Set up search bar redirect listener (redirects to search.html)
     const searchInput = document.getElementById('searchInput');
