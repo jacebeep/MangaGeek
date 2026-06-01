@@ -578,7 +578,8 @@
             'grimms-fairy-tales': 'grimms_fairy_tales_data.js',
             'peter-pan': 'peter_pan_data.js',
             'the-odyssey': 'the_odyssey_data.js',
-            'the-iliad': 'the_iliad_data.js'
+            'the-iliad': 'the_iliad_data.js',
+            'one-piece': 'one_piece_data.js'
         };
         const scriptToLoad = scriptMapForLoader[currentMangaIdForLoader] || 'data.js';
         document.write('<script src="script.js"><\/script>');
@@ -608,6 +609,7 @@
             if (typeof itData !== 'undefined') window.mangaDatabase["stephen-king-it"] = itData;
             if (typeof spidermanData !== 'undefined') window.mangaDatabase["spiderman-3"] = spidermanData;
             if (typeof spiderman701Data !== 'undefined') window.mangaDatabase["spiderman-701"] = spiderman701Data;
+            if (typeof onePieceData !== 'undefined') window.mangaDatabase["one-piece"] = onePieceData;
         }
 
         let manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
