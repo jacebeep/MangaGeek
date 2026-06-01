@@ -612,35 +612,59 @@
 
         let manga = typeof mangaDatabase !== 'undefined' ? mangaDatabase[currentMangaId] : null;
 
-        // Dynamic 3-chapter narrative preview builder fallback for newly generated catalog items
+        // Dynamic 3-chapter picture-manga preview builder fallback for newly generated catalog items
         if (!manga && typeof mockMangaData !== 'undefined') {
             const catalogItem = mockMangaData.find(m => m.mangaId === currentMangaId);
             if (catalogItem) {
                 const formattedTitle = catalogItem.title;
+                
+                // Load actual high-quality drawing panels from local Spiderman manga
+                const fallbackPagesCh1 = [
+                    "assets/images/Spiderman 3/Page_001.jpg",
+                    "assets/images/Spiderman 3/Page_002.jpg",
+                    "assets/images/Spiderman 3/Page_003.jpg",
+                    "assets/images/Spiderman 3/Page_004.jpg",
+                    "assets/images/Spiderman 3/Page_005.jpg",
+                    "assets/images/Spiderman 3/Page_006.jpg",
+                    "assets/images/Spiderman 3/Page_007.jpg",
+                    "assets/images/Spiderman 3/Page_008.jpg"
+                ];
+                const fallbackPagesCh2 = [
+                    "assets/images/Spiderman 3/Page_009.jpg",
+                    "assets/images/Spiderman 3/Page_010.jpg",
+                    "assets/images/Spiderman 3/Page_011.jpg",
+                    "assets/images/Spiderman 3/Page_012.jpg",
+                    "assets/images/Spiderman 3/Page_013.jpg",
+                    "assets/images/Spiderman 3/Page_014.jpg",
+                    "assets/images/Spiderman 3/Page_015.jpg",
+                    "assets/images/Spiderman 3/Page_016.jpg"
+                ];
+                const fallbackPagesCh3 = [
+                    "assets/images/Spiderman 3/Page_017.jpg",
+                    "assets/images/Spiderman 3/Page_018.jpg",
+                    "assets/images/Spiderman 3/Page_019.jpg",
+                    "assets/images/Spiderman 3/Page_020.jpg",
+                    "assets/images/Spiderman 3/Page_021.jpg",
+                    "assets/images/Spiderman 3/Page_022.jpg",
+                    "assets/images/Spiderman 3/Page_023.jpg",
+                    "assets/images/Spiderman 3/Page_024.jpg"
+                ];
+                
                 manga = {
                     title: formattedTitle,
-                    isText: true,
+                    isText: false, // 100% picture manga!
                     chapters: {
                         1: {
-                            title: "Chapter 1: The Gathering Storm",
-                            pages: [
-                                `Welcome to the premium digital edition of ${formattedTitle}.\n\nThis is Chapter 1: The Journey Begins.\n\nThe world was quiet before the legends started. In the heart of the action, our protagonist set out on an unforgettable quest. Surrounded by loyal companions and facing insurmountable adversaries, the destiny of ${formattedTitle} begins to unfold here.\n\n"We must keep moving forward," they vowed. "No matter how dark the path becomes. We are the masters of our fate."\n\nStay tuned as this spectacular masterpiece develops!`,
-                                `This is page 2 of Chapter 1 of ${formattedTitle}.\n\nAs the sun dipped below the horizon, the true challenges arose. The wind whispered long-forgotten secrets, and ancient powers stirred in the shadows. What lies ahead remains shrouded in mystery, but the resolve of the brave never falters.\n\n"Strength does not come from physical capacity. It comes from an indomitable will," they reflected, looking toward the distant horizon.`
-                            ]
+                            title: "Chapter 1: Dawn of Adventure",
+                            pages: fallbackPagesCh1
                         },
                         2: {
-                            title: "Chapter 2: Path of the Warrior",
-                            pages: [
-                                `This is Chapter 2: The Fire Inside.\n\nWith new allies by their side and lessons learned from past skirmishes, the journey grew more intense. Every step brought them closer to the ultimate truth. The shadows gathered thick and heavy, but so did the light of determination.\n\n"The only way to do great work is to love what you do," our hero remembered, raising their blade to meet the coming storm.`,
-                                `This is page 2 of Chapter 2.\n\nThe battle lines are drawn, and the clash of opposing ideals is inevitable. The story of ${formattedTitle} continues to unfold with breathtaking momentum and heart-pounding suspense!`
-                            ]
+                            title: "Chapter 2: Trial of Strength",
+                            pages: fallbackPagesCh2
                         },
                         3: {
-                            title: "Chapter 3: Legacy of Legends",
-                            pages: [
-                                `This is Chapter 3: Unleashed Destiny.\n\nIn a spectacular display of raw power, tactical brilliance, and sheer willpower, the peak of the adventure is finally reached. The stars aligned, and a new legend was forged in the heat of combat.\n\n"A champion is defined not by their wins, but by how they can recover when they fall."`,
-                                `Thank you for reading the interactive preview of ${formattedTitle} on MangaGeek!\n\nA premium fully-digitized copy of the complete publication is currently being reformatted. Bookmark your progress to save this title to your library and track your reading analytics!`
-                            ]
+                            title: "Chapter 3: Path of the Champion",
+                            pages: fallbackPagesCh3
                         }
                     }
                 };
